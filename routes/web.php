@@ -1,0 +1,64 @@
+<?php
+
+use App\Http\Controllers\AppOptimizationController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\Modules\ProductManagement\CategoryController;
+use App\Http\Controllers\Modules\ProductManagement\ProductController;
+use App\Http\Controllers\Modules\ProductManagement\SubCategoryController;
+use App\Http\Controllers\Modules\UserManagement\UserController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
+
+//This route is used to clear the cache, view, config, and route cache
+Route::get('/optimized', [AppOptimizationController::class, 'optimize']);
+
+/*
+|--------------------------------------
+| Guest Routes (Unauthenticated Users)
+|--------------------------------------
+*/
+Route::get('/', [AuthenticatedSessionController::class, 'create']);
+Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
+Route::post('login', [AuthenticatedSessionController::class, 'store']);
+
+/*
+|---------------------------
+| Authenticated Routes List
+|---------------------------
+*/
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    //User Manage
+    Route::get('/users', [UserController::class, 'index'])->name('user.index');
+    Route::post('/add-user', [UserController::class, 'store']);
+    Route::delete('/user/{id}', [UserController::class, 'destroy']);
+
+    //Category Setup
+    Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
+    Route::post('/add-category', [CategoryController::class, 'store']);
+    Route::delete('/category/{id}', [CategoryController::class, 'destroy']);
+
+    //Sub Category Setup
+    Route::get('/sub-category', [SubCategoryController::class, 'index'])->name('sub.category.index');
+    Route::post('/add-sub-category', [SubCategoryController::class, 'store']);
+    Route::delete('/sub-category/{id}', [SubCategoryController::class, 'destroy']);
+
+    //Product Setup
+    Route::get('/product', [ProductController::class, 'index'])->name('product.index');
+    Route::post('/add-product', [ProductController::class, 'store']);
+    Route::delete('/product/{id}', [ProductController::class, 'destroy']);
+
+    Route::get('change', [LanguageController::class, 'change'])->name('lang.change');
+
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__ . '/auth.php';
