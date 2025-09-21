@@ -1,52 +1,49 @@
 <script setup>
 import { ref, computed } from "vue";
-import Dashboard from "@/Pages/Dashboard/Dashboard.vue";
+import Dashboard from "@/Pages/Backend/Dashboard/Dashboard.vue";
 import { Head, usePage, router } from "@inertiajs/vue3";
 import { Modal } from "bootstrap";
-import AddProduct from "./Modals/AddProduct.vue";
+import AddCategory from "./Modals/AddCategory.vue";
 import FeedbackModal from "@/Components/Common/FeedbackModal.vue";
 import ConfirmModal from "@/Components/Common/ConfirmModal.vue";
 import Pagination from "@/Components/Common/Pagination.vue";
+import { formatDate } from "@/utils/functions.js";
 
 const props = defineProps({
     title: String,
     errors: {
         type: Object,
     },
-    products: {
-        type: Object,
-        required: true,
-    },
     categories: {
-        type: Array,
+        type: Object,
         required: true,
     },
 });
 
 const page = usePage();
-const productsList = computed(() => props.products.data ?? []);
+const categoryList = computed(() => props.categories.data ?? []);
 const feedbackModal = ref(null);
 const confirmModal = ref(null);
 
 /**
- * Product Delete
+ * Category Delete
  */
-function deleteProduct(id) {
+function deleteCategory(id) {
     confirmModal.value.show({
         text: "You want to proceed",
         onConfirm: () => {
-            router.delete(`/product/${id}`, {
+            router.delete(`/category/${id}`, {
                 onSuccess: () => {
                     feedbackModal.value.show({
                         type: "success",
-                        title: "Product removed!",
+                        title: "Category removed!",
                         message: page.props.flash.success,
                         autoClose: true,
                         autoCloseDelay: 3000,
                     });
                 },
                 onError: () => {
-                    alert("Failed to delete product.");
+                    alert("Failed to delete category.");
                 },
             });
         },
@@ -59,14 +56,14 @@ function deleteProduct(id) {
     <Dashboard>
         <div class="add_product">
             <div class="product_heading">
-                <h3 class="title">Product List</h3>
+                <h3 class="title">Category List</h3>
                 <button
                     class="btn btn_primary d-flex align-items-center"
                     data-bs-toggle="modal"
-                    data-bs-target="#add_product_modal"
+                    data-bs-target="#add_category_modal"
                 >
                     <span class="material-icons add_icon">add</span>
-                    Add Product
+                    Add Category
                 </button>
             </div>
             <div class="product_content">
@@ -94,47 +91,30 @@ function deleteProduct(id) {
                             />
                         </div>
                     </div>
-                    <template v-if="productsList.length > 0">
+                    <template v-if="categoryList.length > 0">
                         <table class="table table-centered">
                             <thead>
                                 <tr>
-                                    <th>Image</th>
                                     <th>Title</th>
-                                    <th>Category</th>
-                                    <th>Sub Category</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
+                                    <th>Created At</th>
                                     <th class="text-end pe-4">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr
-                                    v-for="product in productsList"
-                                    :key="product.id"
+                                    v-for="category in categoryList"
+                                    :key="category.id"
                                 >
-                                    <td>
-                                        <img
-                                            v-if="
-                                                product.media &&
-                                                product.media.url
-                                            "
-                                            :src="product.media.url"
-                                            alt="Product Image"
-                                            class="product-img"
-                                        />
-                                        <span v-else>N/A</span>
-                                    </td>
-                                    <td>{{ product.title }}</td>
-                                    <td>
-                                        {{ product.category?.title || "N/A" }}
-                                    </td>
+                                    <td>{{ category.title }}</td>
                                     <td>
                                         {{
-                                            product.sub_category?.title || "N/A"
+                                            category?.created_at
+                                                ? formatDate(
+                                                      category.created_at
+                                                  )
+                                                : "-"
                                         }}
                                     </td>
-                                    <td>{{ product.quantity }}</td>
-                                    <td>{{ product.price }}</td>
                                     <td>
                                         <div
                                             class="d-flex align-items-center gap-1 justify-content-end"
@@ -159,7 +139,7 @@ function deleteProduct(id) {
                                                 title="Delete"
                                                 role="button"
                                                 @click="
-                                                    deleteProduct(product.id)
+                                                    deleteCategory(category.id)
                                                 "
                                             >
                                                 delete
@@ -169,23 +149,23 @@ function deleteProduct(id) {
                                 </tr>
                             </tbody>
                         </table>
-                        <Pagination :links="products.links" />
+                        <Pagination :links="categories.links" />
                     </template>
                     <template v-else>
                         <div class="text-center py-5 text-muted">
                             <p class="fs-4 fw-semibold mb-2">
-                                No Products Found
+                                No Category Found
                             </p>
                             <p class="fs-6 mb-0">
-                                Try creating a new product to get started.
+                                Try creating a new category to get started.
                             </p>
                         </div>
                     </template>
                 </div>
             </div>
         </div>
-        <!-- ===== Add Product Modal -->
-        <AddProduct :errors="props.errors" :categories="props.categories" />
+        <!-- ===== Add Category Modal -->
+        <AddCategory :errors="props.errors" />
         <!-- Feedback Modal -->
         <FeedbackModal ref="feedbackModal" />
         <!-- Confirm Modal -->
@@ -193,11 +173,4 @@ function deleteProduct(id) {
     </Dashboard>
 </template>
 
-<style scoped>
-.product-img {
-    max-width: 100px;
-    max-height: 100px;
-    width: auto;
-    height: auto;
-}
-</style>
+<style scoped></style>

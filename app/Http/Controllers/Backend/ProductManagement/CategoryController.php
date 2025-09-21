@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Modules\ProductManagement;
+namespace App\Http\Controllers\Backend\ProductManagement;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
@@ -19,7 +19,7 @@ class CategoryController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
-        return Inertia::render('Modules/ProductManagement/Category/Index', [
+        return Inertia::render('Backend/ProductManagement/Category/Index', [
             'title'      => 'Category Setup',
             'categories' => $categories,
 

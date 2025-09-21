@@ -38,7 +38,7 @@ const submit = () => {
                     <div class="card">
                         <div class="card-header">
                             <img
-                                src="/assets/img/seba_logo_bg_white.jpg"
+                                src="/assets/backend/img/seba_logo_bg_white.jpg"
                                 alt="Logo"
                                 class="logo"
                             />
@@ -151,3 +151,90 @@ const submit = () => {
         <p>Copyright &copy; 2025 Seba Today || All Rights Reserved</p>
     </div>
 </template>
+
+<style scoped>
+.account_pages {
+    background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.account_pages .card .card-header {
+    background-color: #727cf5;
+    text-align: center;
+    padding: 25px;
+}
+.account_pages .card .card-header .logo {
+    height: 20px;
+    margin: 0 auto;
+}
+.account_pages .card .card-body {
+    padding: 0 40px 60px;
+}
+.account_pages .card .card-body .title {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin: 40px 0 10px;
+    color: #6c757d;
+}
+.account_pages .card .card-body .text {
+    font-size: 14px;
+    text-align: center;
+    color: #8a969c;
+    width: 75%;
+    margin: auto;
+    margin-bottom: 30px;
+}
+.account_pages .card .card-body .form-label {
+    color: #6c757d;
+    font-weight: 600;
+}
+.account_pages .card .card-body .form-check-label {
+    color: #6c757d;
+    font-weight: 600;
+}
+.account_pages .card .card-body .form-check-label a {
+    color: #6c757d;
+    text-decoration: none;
+}
+.account_pages .card .card-body .form-check-label a:hover {
+    text-decoration: underline;
+}
+.account_pages .card .card-body .btn_primary {
+    margin: auto;
+    display: block;
+}
+.account_pages .card .card-body small a {
+    color: #6c757d;
+    font-size: 14px;
+    text-decoration: none;
+}
+.account_pages .card .card-body small a:hover {
+    text-decoration: underline;
+}
+.account_pages .dont-acc {
+    color: #6c757d;
+}
+.account_pages .dont-acc a {
+    color: #6c757d;
+    text-decoration: none;
+}
+.account_pages .dont-acc a:hover {
+    text-decoration: underline;
+}
+
+.account_footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.account_footer p {
+    color: #6c757d;
+    font-size: 14px;
+    padding: 10px 30px;
+    text-align: center;
+}
+</style>

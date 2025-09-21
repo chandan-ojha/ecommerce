@@ -92,7 +92,10 @@ const currentLocale = page.props.locale;
                         <div class="notification_text">
                             <span class="date">Today</span>
                             <div class="noti_card">
-                                <img src="/assets/img/user.jpg" alt="" />
+                                <img
+                                    src="/assets/backend/img/user.jpg"
+                                    alt=""
+                                />
                                 <div>
                                     <div
                                         class="d-flex align-items-center gap-2"
@@ -107,7 +110,10 @@ const currentLocale = page.props.locale;
                                 </div>
                             </div>
                             <div class="noti_card">
-                                <img src="/assets/img/user.jpg" alt="" />
+                                <img
+                                    src="/assets/backend/img/user.jpg"
+                                    alt=""
+                                />
                                 <div>
                                     <div
                                         class="d-flex align-items-center gap-2"
@@ -123,7 +129,10 @@ const currentLocale = page.props.locale;
                             </div>
                             <span class="date">24 JUN 2025</span>
                             <div class="noti_card">
-                                <img src="/assets/img/user.jpg" alt="" />
+                                <img
+                                    src="/assets/backend/img/user.jpg"
+                                    alt=""
+                                />
                                 <div>
                                     <div
                                         class="d-flex align-items-center gap-2"
@@ -148,7 +157,7 @@ const currentLocale = page.props.locale;
                         aria-expanded="false"
                         class="d-flex align-items-center gap-2 pointer"
                     >
-                        <img src="/assets/img/user.jpg" alt="" />
+                        <img src="/assets/backend/img/user.jpg" alt="" />
                         <div>
                             <h6>James Anderson</h6>
                             <p>Administrator</p>

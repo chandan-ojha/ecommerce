@@ -2,12 +2,12 @@
 
 use App\Http\Controllers\AppOptimizationController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\ProductManagement\CategoryController;
+use App\Http\Controllers\Backend\ProductManagement\ProductController;
+use App\Http\Controllers\Backend\ProductManagement\SubCategoryController;
+use App\Http\Controllers\Backend\UserManagement\UserController;
 use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\Modules\ProductManagement\CategoryController;
-use App\Http\Controllers\Modules\ProductManagement\ProductController;
-use App\Http\Controllers\Modules\ProductManagement\SubCategoryController;
-use App\Http\Controllers\Modules\UserManagement\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,16 +19,23 @@ Route::get('/optimized', [AppOptimizationController::class, 'optimize']);
 | Guest Routes (Unauthenticated Users)
 |--------------------------------------
 */
-Route::get('/', [AuthenticatedSessionController::class, 'create']);
+
 Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
 Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
 /*
 |---------------------------
-| Authenticated Routes List
+| Frontend Routes List
 |---------------------------
 */
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::get('/', [App\Http\Controllers\Frontend\IndexController::class, 'index'])->name('home');
+
+/*
+|---------------------------
+| Authenticated Routes List for Admin
+|---------------------------
+*/
+Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     //User Manage

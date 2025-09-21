@@ -1,5 +1,5 @@
 <script setup>
-import Dashboard from "@/Pages/Dashboard/Dashboard.vue";
+import Dashboard from "@/Pages/Backend/Dashboard/Dashboard.vue";
 import { Head } from "@inertiajs/vue3";
 import { onMounted } from "vue";
 

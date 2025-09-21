@@ -9,7 +9,7 @@ const label = page.props.sidebarTranslations;
 <template>
     <div class="sidebar">
         <div class="logo">
-            <img src="/assets/img/seba_logo_bg_white.jpg" alt="" />
+            <img src="/assets/backend/img/seba_logo_bg_white.jpg" alt="" />
         </div>
         <div class="menu_list">
             <div class="accordion" id="accordionExample">

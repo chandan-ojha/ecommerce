@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Modules\UserManagement;
+namespace App\Http\Controllers\Backend\UserManagement;
 
 use App\Http\Controllers\Controller;
 use App\Models\Role;
@@ -23,7 +23,7 @@ class UserController extends Controller
 
         $roles = Role::select('id', 'name')->get();
 
-        return Inertia::render('Modules/UserManagement/User/Index', [
+        return Inertia::render('Backend/UserManagement/User/Index', [
             'title' => 'User Setup',
             'users' => $users,
             'roles' => $roles,

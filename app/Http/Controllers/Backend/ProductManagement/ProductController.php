@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Modules\ProductManagement;
+namespace App\Http\Controllers\Backend\ProductManagement;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
@@ -30,7 +30,7 @@ class ProductController extends Controller
 
         //return response()->json(['data' => $categories]);
 
-        return Inertia::render('Modules/ProductManagement/Product/Index', [
+        return Inertia::render('Backend/ProductManagement/Product/Index', [
             'title'      => 'Product Setup',
             'products'   => $products,
             'categories' => $categories,

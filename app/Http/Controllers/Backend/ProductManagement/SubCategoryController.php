@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Modules\ProductManagement;
+namespace App\Http\Controllers\Backend\ProductManagement;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
@@ -24,7 +24,7 @@ class SubCategoryController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return Inertia::render('Modules/ProductManagement/SubCategory/Index', [
+        return Inertia::render('Backend/ProductManagement/SubCategory/Index', [
             'title'          => 'Sub Category Setup',
             'sub_categories' => $sub_categories,
             'categories'     => $categories,

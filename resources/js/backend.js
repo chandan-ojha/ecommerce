@@ -1,4 +1,4 @@
-import "../assets/frontend/css/app.css";
+import "../assets/backend/css/backend.css";
 import "bootstrap";
 import "./bootstrap";
 
