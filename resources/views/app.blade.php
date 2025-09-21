@@ -1,8 +1,3 @@
-@php
-    $user = Auth::user();
-    $isAdmin = $user && $user->hasRole('admin');
-@endphp
-
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -17,14 +12,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap">
+
     @routes
-
-    @if ($isAdmin)
-        @vite('resources/js/backend.js')
-    @else
-        @vite('resources/js/app.js')
-    @endif
-
+    @vite('resources/js/app.js')
     @inertiaHead
 </head>
 
