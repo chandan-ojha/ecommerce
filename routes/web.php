@@ -7,6 +7,8 @@ use App\Http\Controllers\Backend\ProductManagement\CategoryController;
 use App\Http\Controllers\Backend\ProductManagement\ProductController;
 use App\Http\Controllers\Backend\ProductManagement\SubCategoryController;
 use App\Http\Controllers\Backend\UserManagement\UserController;
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\ProductPageController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -28,7 +30,8 @@ Route::post('login', [AuthenticatedSessionController::class, 'store']);
 | Frontend Routes List
 |---------------------------
 */
-Route::get('/', [App\Http\Controllers\Frontend\IndexController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/all-products', [ProductPageController::class, 'index'])->name('products');
 
 /*
 |---------------------------

@@ -1,4 +1,5 @@
 <script setup>
+import FrontendLayout from "@/Pages/Frontend/Layouts/FrontendLayout.vue";
 import Checkbox from "@/Components/Checkbox.vue";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
@@ -30,211 +31,132 @@ const submit = () => {
 
 <template>
     <Head title="Sign In" />
-
-    <div class="account_pages">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xxl-4 col-lg-5 col-md-8">
-                    <div class="card">
-                        <div class="card-header">
-                            <img
-                                src="/assets/backend/img/seba_logo_bg_white.jpg"
-                                alt="Logo"
-                                class="logo"
-                            />
+    <FrontendLayout>
+        <section id="login-part">
+            <div
+                class="login-part-hight d-flex flex-column justify-content-center"
+            >
+                <div class="container">
+                    <div class="login-content">
+                        <div class="login-titel text-center mb-4">
+                            <h2 class="fw-bold text-primary">Welcome Back</h2>
+                            <p class="text-muted small mb-0">
+                                Please sign in to continue to your account
+                            </p>
                         </div>
 
-                        <div class="card-body">
-                            <h5 class="title">Sign In</h5>
-                            <p class="text">
-                                Enter your email address and password to access
-                                admin panel.
-                            </p>
+                        <div
+                            v-if="status"
+                            class="mb-3 text-success text-center fw-semibold"
+                        >
+                            {{ status }}
+                        </div>
 
-                            <div
-                                v-if="status"
-                                class="mb-4 text-sm font-medium text-success"
-                            >
-                                {{ status }}
+                        <form @submit.prevent="submit">
+                            <!-- Email -->
+                            <div class="mb-3">
+                                <InputLabel
+                                    for="email"
+                                    value="Email Address"
+                                    class="form-label fw-semibold"
+                                />
+                                <TextInput
+                                    id="email"
+                                    type="email"
+                                    class="form-control"
+                                    v-model="form.email"
+                                    required
+                                    autofocus
+                                    autocomplete="username"
+                                    placeholder="Enter your email address"
+                                />
+                                <InputError
+                                    class="text-danger mt-1 small"
+                                    :message="form.errors.email"
+                                />
                             </div>
 
-                            <form @submit.prevent="submit">
-                                <!-- Email -->
-                                <div class="mb-4">
+                            <!-- Password -->
+                            <div class="mb-3">
+                                <div
+                                    class="d-flex justify-content-between align-items-center mb-2"
+                                >
                                     <InputLabel
-                                        for="email"
-                                        value="Email address"
+                                        for="password"
+                                        value="Password"
+                                        class="fw-semibold"
                                     />
-                                    <TextInput
-                                        id="email"
-                                        type="email"
-                                        class="form-control"
-                                        v-model="form.email"
-                                        required
-                                        autofocus
-                                        autocomplete="username"
-                                        placeholder="Enter your email"
-                                    />
-                                    <InputError
-                                        class="text-danger mt-1"
-                                        :message="form.errors.email"
-                                    />
-                                </div>
-
-                                <!-- Password -->
-                                <div class="mb-3">
-                                    <div
-                                        class="d-flex justify-content-between align-items-center"
+                                    <Link
+                                        v-if="canResetPassword"
+                                        :href="route('password.request')"
+                                        class="text-decoration-none small text-primary"
                                     >
-                                        <InputLabel
-                                            for="password"
-                                            value="Password"
-                                            class="form-label"
+                                        Forgot password?
+                                    </Link>
+                                </div>
+                                <TextInput
+                                    id="password"
+                                    type="password"
+                                    class="form-control"
+                                    v-model="form.password"
+                                    required
+                                    autocomplete="current-password"
+                                    placeholder="Enter your password"
+                                />
+                                <InputError
+                                    class="text-danger mt-1 small"
+                                    :message="form.errors.password"
+                                />
+                            </div>
+
+                            <!-- Remember me -->
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <div class="form-check text-start">
+                                        <Checkbox
+                                            id="remember"
+                                            v-model:checked="form.remember"
                                         />
-                                        <!-- <small v-if="canResetPassword">
-                                            <Link
-                                                :href="
-                                                    route('password.request')
-                                                "
-                                                >Forgot your password?</Link
-                                            >
-                                        </small> -->
+                                        <label
+                                            for="remember"
+                                            class="form-check-label small"
+                                        >
+                                            Remember me
+                                        </label>
                                     </div>
-                                    <TextInput
-                                        id="password"
-                                        type="password"
-                                        class="form-control"
-                                        v-model="form.password"
-                                        required
-                                        autocomplete="current-password"
-                                        placeholder="Enter your password"
-                                    />
-                                    <InputError
-                                        class="text-danger mt-1"
-                                        :message="form.errors.password"
-                                    />
                                 </div>
+                            </div>
 
-                                <!-- Remember me -->
-                                <div class="mb-3 form-check">
-                                    <Checkbox
-                                        id="remember"
-                                        v-model:checked="form.remember"
-                                    />
-                                    <label
-                                        class="form-check-label"
-                                        for="remember"
-                                        >Remember me</label
-                                    >
-                                </div>
-
-                                <!-- Submit -->
+                            <!-- Submit -->
+                            <div class="login-account mb-3">
                                 <PrimaryButton
                                     type="submit"
-                                    class="btn btn_primary"
+                                    class="btn btn-primary w-100 fw-semibold"
                                     :class="{
-                                        'opacity-25': form.processing,
+                                        'opacity-50': form.processing,
                                     }"
                                     :disabled="form.processing"
                                 >
-                                    Log In
+                                    Sign In
                                 </PrimaryButton>
-                            </form>
-                        </div>
+                            </div>
+
+                            <!-- Create Account -->
+                            <p class="text-center mt-3 small mb-0">
+                                Don’t have an account?
+                                <Link
+                                    href="#"
+                                    class="text-primary fw-semibold text-decoration-none"
+                                >
+                                    Create one
+                                </Link>
+                            </p>
+                        </form>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="account_footer">
-        <p>Copyright &copy; 2025 Seba Today || All Rights Reserved</p>
-    </div>
+        </section>
+    </FrontendLayout>
 </template>
 
-<style scoped>
-.account_pages {
-    background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.account_pages .card .card-header {
-    background-color: #727cf5;
-    text-align: center;
-    padding: 25px;
-}
-.account_pages .card .card-header .logo {
-    height: 20px;
-    margin: 0 auto;
-}
-.account_pages .card .card-body {
-    padding: 0 40px 60px;
-}
-.account_pages .card .card-body .title {
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-    margin: 40px 0 10px;
-    color: #6c757d;
-}
-.account_pages .card .card-body .text {
-    font-size: 14px;
-    text-align: center;
-    color: #8a969c;
-    width: 75%;
-    margin: auto;
-    margin-bottom: 30px;
-}
-.account_pages .card .card-body .form-label {
-    color: #6c757d;
-    font-weight: 600;
-}
-.account_pages .card .card-body .form-check-label {
-    color: #6c757d;
-    font-weight: 600;
-}
-.account_pages .card .card-body .form-check-label a {
-    color: #6c757d;
-    text-decoration: none;
-}
-.account_pages .card .card-body .form-check-label a:hover {
-    text-decoration: underline;
-}
-.account_pages .card .card-body .btn_primary {
-    margin: auto;
-    display: block;
-}
-.account_pages .card .card-body small a {
-    color: #6c757d;
-    font-size: 14px;
-    text-decoration: none;
-}
-.account_pages .card .card-body small a:hover {
-    text-decoration: underline;
-}
-.account_pages .dont-acc {
-    color: #6c757d;
-}
-.account_pages .dont-acc a {
-    color: #6c757d;
-    text-decoration: none;
-}
-.account_pages .dont-acc a:hover {
-    text-decoration: underline;
-}
-
-.account_footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
-.account_footer p {
-    color: #6c757d;
-    font-size: 14px;
-    padding: 10px 30px;
-    text-align: center;
-}
-</style>
+<style scoped></style>

@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Inertia\Inertia;
 
-class IndexController extends Controller
+class HomeController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Frontend/Index', [
+        return Inertia::render('Frontend/Pages/Home', [
             'title' => 'Home',
         ]);
     }
