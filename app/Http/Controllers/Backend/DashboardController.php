@@ -15,6 +15,6 @@ class DashboardController extends Controller
         return Inertia::render('Backend/Modules/Dashboard/Index', [
             'title' => 'Dashboard',
             'role'  => $roleName,
-        ]);
+        ])->rootView('backend');
     }
 }

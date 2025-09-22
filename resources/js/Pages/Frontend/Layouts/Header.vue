@@ -1,5 +1,8 @@
 <script setup>
 import { Link, usePage } from "@inertiajs/vue3";
+
+const page = usePage();
+const user = page.props.auth?.user || null;
 </script>
 
 <template>
@@ -43,13 +46,95 @@ import { Link, usePage } from "@inertiajs/vue3";
                     </div>
                 </div>
                 <div class="login-part">
-                    <span class="material-icons">shopping_cart</span>
-                    <Link :href="route('login')">
-                        <button class="btn-login">Login</button>
-                    </Link>
-                    <a href="register.html">
-                        <button class="btn-register">Register</button>
-                    </a>
+                    <!-- Shopping Cart Icon -->
+                    <span class="material-icons me-3">shopping_cart</span>
+
+                    <!-- If user is logged in -->
+                    <template v-if="user">
+                        <!-- User Profile Dropdown -->
+                        <div class="dropdown">
+                            <a
+                                class="d-flex align-items-center text-decoration-none dropdown-toggle"
+                                href="#"
+                                id="userDropdown"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            >
+                                <!-- Profile Image -->
+                                <img
+                                    :src="`https://ui-avatars.com/api/?name=${encodeURIComponent(
+                                        user.name
+                                    )}&background=0D8ABC&color=fff&size=40`"
+                                    alt="User"
+                                    width="40"
+                                    height="40"
+                                    class="rounded-circle me-2"
+                                />
+                                <!-- User Name -->
+                                <div class="d-none d-md-block text-start">
+                                    <div class="fw-semibold">
+                                        {{ user.name }}
+                                    </div>
+                                    <small class="text-muted">{{
+                                        user.role || "Admin"
+                                    }}</small>
+                                </div>
+                            </a>
+
+                            <!-- Dropdown Menu -->
+                            <ul
+                                class="dropdown-menu dropdown-menu-end"
+                                aria-labelledby="userDropdown"
+                            >
+                                <!-- <li>
+                                    <a
+                                        class="dropdown-item d-flex align-items-center"
+                                        href="#"
+                                    >
+                                        <span class="material-icons me-2"
+                                            >person</span
+                                        >
+                                        My Account
+                                    </a>
+                                </li> -->
+                                <li>
+                                    <a
+                                        class="dropdown-item d-flex align-items-center gap-2"
+                                        :href="route('dashboard')"
+                                        target="_blank"
+                                    >
+                                        <span class="material-icons"
+                                            >admin_panel_settings</span
+                                        >
+                                        Admin Panel
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li>
+                                    <Link
+                                        :href="route('logout')"
+                                        method="post"
+                                        class="dropdown-item d-flex align-items-center"
+                                    >
+                                        <span class="material-icons me-2"
+                                            >logout</span
+                                        >
+                                        Logout
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                    </template>
+
+                    <!-- If user not logged in -->
+                    <template v-else>
+                        <Link :href="route('login')">
+                            <button class="btn-login">Login</button>
+                        </Link>
+                        <a href="register.html">
+                            <button class="btn-register">Register</button>
+                        </a>
+                    </template>
                 </div>
             </div>
         </div>
