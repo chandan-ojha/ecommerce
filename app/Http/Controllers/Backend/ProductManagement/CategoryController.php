@@ -19,7 +19,7 @@ class CategoryController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
-        return Inertia::render('Backend/ProductManagement/Category/Index', [
+        return Inertia::render('Backend/Modules/ProductManagement/Category/Index', [
             'title'      => 'Category Setup',
             'categories' => $categories,
 

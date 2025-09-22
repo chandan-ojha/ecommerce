@@ -1,12 +1,12 @@
 <script setup>
 import { ref, computed } from "vue";
-import Dashboard from "@/Pages/Backend/Dashboard/Dashboard.vue";
+import AdminLayout from "@/Pages/Backend/Layouts/AdminLayout.vue";
 import { Head, usePage, router } from "@inertiajs/vue3";
 import { Modal } from "bootstrap";
 import AddSubCategory from "./Modals/AddSubCategory.vue";
-import FeedbackModal from "@/Components/Common/FeedbackModal.vue";
-import ConfirmModal from "@/Components/Common/ConfirmModal.vue";
-import Pagination from "@/Components/Common/Pagination.vue";
+import FeedbackModal from "@/Pages/Backend/Components/FeedbackModal.vue";
+import ConfirmModal from "@/Pages/Backend/Components/ConfirmModal.vue";
+import Pagination from "@/Pages/Backend/Components/Pagination.vue";
 import { formatDate } from "@/utils/functions.js";
 
 const props = defineProps({
@@ -57,7 +57,7 @@ function deleteSubCategory(id) {
 
 <template>
     <Head :title="title" />
-    <Dashboard>
+    <AdminLayout>
         <div class="add_product">
             <div class="product_heading">
                 <h3 class="title">Sub Category List</h3>
@@ -182,7 +182,7 @@ function deleteSubCategory(id) {
         <FeedbackModal ref="feedbackModal" />
         <!-- Confirm Modal -->
         <ConfirmModal ref="confirmModal" />
-    </Dashboard>
+    </AdminLayout>
 </template>
 
 <style scoped></style>

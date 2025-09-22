@@ -1,5 +1,5 @@
 <script setup>
-import Dashboard from "@/Pages/Backend/Dashboard/Dashboard.vue";
+import AdminLayout from "@/Pages/Backend/Layouts/AdminLayout.vue";
 import { Head } from "@inertiajs/vue3";
 import { onMounted } from "vue";
 
@@ -65,7 +65,7 @@ onMounted(() => {
 
 <template>
     <Head :title="title" />
-    <Dashboard>
+    <AdminLayout>
         <div class="row">
             <div class="col-lg-4 col-xl-3 col-md-4 col-sm-6">
                 <div class="custom_card">
@@ -240,7 +240,7 @@ onMounted(() => {
                 </div>
             </div>
         </div>
-    </Dashboard>
+    </AdminLayout>
 </template>
 
 <style scoped></style>

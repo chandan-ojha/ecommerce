@@ -12,7 +12,7 @@ class DashboardController extends Controller
         $user     = Auth::user();
         $roleName = $user->roles->first()->name ?? 'Unknown';
 
-        return Inertia::render('Backend/Dashboard/Index', [
+        return Inertia::render('Backend/Modules/Dashboard/Index', [
             'title' => 'Dashboard',
             'role'  => $roleName,
         ]);

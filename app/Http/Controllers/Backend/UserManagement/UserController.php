@@ -23,7 +23,7 @@ class UserController extends Controller
 
         $roles = Role::select('id', 'name')->get();
 
-        return Inertia::render('Backend/UserManagement/User/Index', [
+        return Inertia::render('Backend/Modules/UserManagement/User/Index', [
             'title' => 'User Setup',
             'users' => $users,
             'roles' => $roles,

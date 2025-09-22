@@ -30,7 +30,7 @@ class ProductController extends Controller
 
         //return response()->json(['data' => $categories]);
 
-        return Inertia::render('Backend/ProductManagement/Product/Index', [
+        return Inertia::render('Backend/Modules/ProductManagement/Product/Index', [
             'title'      => 'Product Setup',
             'products'   => $products,
             'categories' => $categories,

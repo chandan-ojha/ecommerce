@@ -2,7 +2,7 @@
 import { ref, computed } from "vue";
 import { useForm, usePage, router } from "@inertiajs/vue3";
 import { Modal } from "bootstrap";
-import FeedbackModal from "@/Components/Common/FeedbackModal.vue";
+import FeedbackModal from "@/Pages/Backend/Components/FeedbackModal.vue";
 
 const props = defineProps({
     errors: {

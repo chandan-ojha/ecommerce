@@ -24,7 +24,7 @@ class SubCategoryController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return Inertia::render('Backend/ProductManagement/SubCategory/Index', [
+        return Inertia::render('Backend/Modules/ProductManagement/SubCategory/Index', [
             'title'          => 'Sub Category Setup',
             'sub_categories' => $sub_categories,
             'categories'     => $categories,
