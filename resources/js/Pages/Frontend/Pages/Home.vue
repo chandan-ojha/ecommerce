@@ -6,11 +6,11 @@ import { Head } from "@inertiajs/vue3";
 const props = defineProps({
     title: String,
     onSaleProducts: {
-        type: Array,
+        type: Object,
         required: true,
     },
     products: {
-        type: Array,
+        type: Object,
         required: true,
     },
     categories: {
