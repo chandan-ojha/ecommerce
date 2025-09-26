@@ -16,7 +16,7 @@ const label = page.props.sidebarTranslations;
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                         <Link
-                            :href="route('dashboard')"
+                            :href="route('admin.dashboard')"
                             as="button"
                             class="accordion-button no_dropdown"
                         >
@@ -55,7 +55,7 @@ const label = page.props.sidebarTranslations;
                             <ul class="second_label_menu">
                                 <li>
                                     <Link
-                                        :href="route('category.index')"
+                                        :href="route('admin.category.index')"
                                         class="nav-link"
                                     >
                                         {{ label.category }}
@@ -63,7 +63,9 @@ const label = page.props.sidebarTranslations;
                                 </li>
                                 <li>
                                     <Link
-                                        :href="route('sub.category.index')"
+                                        :href="
+                                            route('admin.sub.category.index')
+                                        "
                                         class="nav-link"
                                     >
                                         {{ label.subcategory }}
@@ -71,7 +73,7 @@ const label = page.props.sidebarTranslations;
                                 </li>
                                 <li>
                                     <Link
-                                        :href="route('product.index')"
+                                        :href="route('admin.product.index')"
                                         class="nav-link"
                                     >
                                         {{ label.product_list }}
@@ -169,7 +171,7 @@ const label = page.props.sidebarTranslations;
                             <ul class="second_label_menu">
                                 <li>
                                     <Link
-                                        :href="route('user.index')"
+                                        :href="route('admin.user.index')"
                                         class="nav-link"
                                     >
                                         {{ label.users }}

@@ -56,9 +56,7 @@
                                                     aria-hidden="true"
                                                 ></i>
                                                 <p class="contact-txt">
-                                                    45 Grand Central Terminal
-                                                    New York,NY 1017 United
-                                                    State USA
+                                                    Mohammadpur
                                                 </p>
                                             </li>
                                             <li>
@@ -67,8 +65,7 @@
                                                     aria-hidden="true"
                                                 ></i>
                                                 <p class="contact-txt">
-                                                    (+123) 456 789 - (+123) 666
-                                                    888
+                                                    01764805692
                                                 </p>
                                             </li>
                                             <li>
@@ -77,7 +74,7 @@
                                                     aria-hidden="true"
                                                 ></i>
                                                 <p class="contact-txt">
-                                                    Contact@yourcompany.com
+                                                    sebatoday@outlook.com
                                                 </p>
                                             </li>
                                         </ul>
@@ -94,9 +91,7 @@
                                         <span class="desc"
                                             >Call Us toll Free</span
                                         >
-                                        <b class="phone-number"
-                                            >(+123) 456 789 - (+123) 666 888</b
-                                        >
+                                        <b class="phone-number">01764805692</b>
                                     </div>
                                 </div>
                             </div>

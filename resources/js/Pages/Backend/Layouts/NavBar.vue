@@ -51,7 +51,7 @@ const currentLocale = page.props.locale;
                 <ul class="dropdown-menu">
                     <li v-if="currentLocale !== 'en'">
                         <Link
-                            :href="route('lang.change', { lang: 'en' })"
+                            :href="route('admin.lang.change', { lang: 'en' })"
                             class="dropdown-item"
                         >
                             <img
@@ -63,7 +63,7 @@ const currentLocale = page.props.locale;
                     </li>
                     <li v-if="currentLocale !== 'bn'">
                         <Link
-                            :href="route('lang.change', { lang: 'bn' })"
+                            :href="route('admin.lang.change', { lang: 'bn' })"
                             class="dropdown-item"
                         >
                             <img

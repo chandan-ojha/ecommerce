@@ -36,7 +36,7 @@ function deleteSubCategory(id) {
     confirmModal.value.show({
         text: "You want to proceed",
         onConfirm: () => {
-            router.delete(`/sub-category/${id}`, {
+            router.delete(`/admin/sub-category/${id}`, {
                 onSuccess: () => {
                     feedbackModal.value.show({
                         type: "success",
@@ -99,6 +99,7 @@ function deleteSubCategory(id) {
                         <table class="table table-centered">
                             <thead>
                                 <tr>
+                                    <th>Image</th>
                                     <th>Title</th>
                                     <th>Category</th>
                                     <th>Created At</th>
@@ -110,6 +111,18 @@ function deleteSubCategory(id) {
                                     v-for="subCategory in subCategoryList"
                                     :key="subCategory.id"
                                 >
+                                    <td>
+                                        <img
+                                            v-if="
+                                                subCategory.media &&
+                                                subCategory.media.url
+                                            "
+                                            :src="subCategory.media.url"
+                                            alt="Sub Category Image"
+                                            class="sub-category-image"
+                                        />
+                                        <span v-else>N/A</span>
+                                    </td>
                                     <td>{{ subCategory.title }}</td>
                                     <td>
                                         {{
@@ -185,4 +198,14 @@ function deleteSubCategory(id) {
     </AdminLayout>
 </template>
 
-<style scoped></style>
+<style scoped>
+.sub-category-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 999px;
+    display: block;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+</style>

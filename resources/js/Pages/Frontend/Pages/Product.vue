@@ -1,10 +1,17 @@
 <script setup>
+import { ref, computed } from "vue";
 import FrontendLayout from "@/Pages/Frontend/Layouts/FrontendLayout.vue";
 import { Head } from "@inertiajs/vue3";
 
 const props = defineProps({
     title: String,
+    products: {
+        type: Array,
+        required: true,
+    },
 });
+
+const productsList = computed(() => props.products ?? []);
 </script>
 
 <template>
@@ -481,7 +488,7 @@ const props = defineProps({
                         <div
                             class="titel-section d-flex justify-content-between align-items-center mb-2"
                         >
-                            <h3>All Products (90)</h3>
+                            <h3>All Products</h3>
                             <select
                                 id="priority-to"
                                 class="form-control form-select sorted-by"
@@ -492,13 +499,16 @@ const props = defineProps({
                             </select>
                         </div>
                         <div class="all-product-card">
-                            <div class="all-product">
-                                <img
-                                    src="/assets/frontend/images/image (9).png"
-                                    alt=""
-                                />
+                            <div
+                                v-for="product in productsList"
+                                :key="product.id"
+                                class="all-product"
+                            >
+                                <img :src="product.media.url" alt="" />
                                 <div class="card-body">
-                                    <h5 class="card-title">Colorful Pen</h5>
+                                    <h5 class="card-title">
+                                        {{ product?.title ?? "" }}
+                                    </h5>
                                     <p class="m-0">
                                         <span class="text-warning">★★★★★</span>
                                         <span class="text-muted"
@@ -508,246 +518,12 @@ const props = defineProps({
                                     <p
                                         class="vat d-flex align-items-center gap-2"
                                     >
-                                        <span class="fw-bold">£3,974.40</span>
-                                        <span
-                                            class="text-muted text-decoration-line-through"
-                                            >£3,312.00 Excl. VAT</span
+                                        <span class="fw-bold"
+                                            >৳ {{ product?.price ?? "" }}</span
                                         >
                                     </p>
                                     <a
-                                        href="./product-details.html"
-                                        class="btn btn-outline-primary w-100"
-                                        >Add to Basket</a
-                                    >
-                                </div>
-                            </div>
-                            <div class="all-product">
-                                <img
-                                    src="/assets/frontend/images/image (22).png"
-                                    alt=""
-                                />
-                                <div class="card-body">
-                                    <h5 class="card-title">Colorful Pen</h5>
-                                    <p class="m-0">
-                                        <span class="text-warning">★★★★★</span>
-                                        <span class="text-muted"
-                                            >329 review</span
-                                        >
-                                    </p>
-                                    <p
-                                        class="vat d-flex align-items-center gap-2"
-                                    >
-                                        <span class="fw-bold">£3,974.40</span>
-                                        <span
-                                            class="text-muted text-decoration-line-through"
-                                            >£3,312.00 Excl. VAT</span
-                                        >
-                                    </p>
-                                    <a
-                                        href="#"
-                                        class="btn btn-outline-primary w-100"
-                                        >Add to Basket</a
-                                    >
-                                </div>
-                            </div>
-                            <div class="all-product">
-                                <img
-                                    src="/assets/frontend/images/image (24).png"
-                                    alt=""
-                                />
-                                <div class="card-body">
-                                    <h5 class="card-title">Colorful Pen</h5>
-                                    <p class="m-0">
-                                        <span class="text-warning">★★★★★</span>
-                                        <span class="text-muted"
-                                            >329 review</span
-                                        >
-                                    </p>
-                                    <p
-                                        class="vat d-flex align-items-center gap-2"
-                                    >
-                                        <span class="fw-bold">£3,974.40</span>
-                                        <span
-                                            class="text-muted text-decoration-line-through"
-                                            >£3,312.00 Excl. VAT</span
-                                        >
-                                    </p>
-                                    <a
-                                        href="#"
-                                        class="btn btn-outline-primary w-100"
-                                        >Add to Basket</a
-                                    >
-                                </div>
-                            </div>
-                            <div class="all-product">
-                                <img
-                                    src="/assets/frontend/images/image (20).png"
-                                    alt=""
-                                />
-                                <div class="card-body">
-                                    <h5 class="card-title">Colorful Pen</h5>
-                                    <p class="m-0">
-                                        <span class="text-warning">★★★★★</span>
-                                        <span class="text-muted"
-                                            >329 review</span
-                                        >
-                                    </p>
-                                    <p
-                                        class="vat d-flex align-items-center gap-2"
-                                    >
-                                        <span class="fw-bold">£3,974.40</span>
-                                        <span
-                                            class="text-muted text-decoration-line-through"
-                                            >£3,312.00 Excl. VAT</span
-                                        >
-                                    </p>
-                                    <a
-                                        href="#"
-                                        class="btn btn-outline-primary w-100"
-                                        >Add to Basket</a
-                                    >
-                                </div>
-                            </div>
-                            <div class="all-product">
-                                <img
-                                    src="/assets/frontend/images/image (21).png"
-                                    alt=""
-                                />
-                                <div class="card-body">
-                                    <h5 class="card-title">Colorful Pen</h5>
-                                    <p class="m-0">
-                                        <span class="text-warning">★★★★★</span>
-                                        <span class="text-muted"
-                                            >329 review</span
-                                        >
-                                    </p>
-                                    <p
-                                        class="vat d-flex align-items-center gap-2"
-                                    >
-                                        <span class="fw-bold">£3,974.40</span>
-                                        <span
-                                            class="text-muted text-decoration-line-through"
-                                            >£3,312.00 Excl. VAT</span
-                                        >
-                                    </p>
-                                    <a
-                                        href="#"
-                                        class="btn btn-outline-primary w-100"
-                                        >Add to Basket</a
-                                    >
-                                </div>
-                            </div>
-                            <div class="all-product">
-                                <img
-                                    src="/assets/frontend/images/image (20).png"
-                                    alt=""
-                                />
-                                <div class="card-body">
-                                    <h5 class="card-title">Colorful Pen</h5>
-                                    <p class="m-0">
-                                        <span class="text-warning">★★★★★</span>
-                                        <span class="text-muted"
-                                            >329 review</span
-                                        >
-                                    </p>
-                                    <p
-                                        class="vat d-flex align-items-center gap-2"
-                                    >
-                                        <span class="fw-bold">£3,974.40</span>
-                                        <span
-                                            class="text-muted text-decoration-line-through"
-                                            >£3,312.00 Excl. VAT</span
-                                        >
-                                    </p>
-                                    <a
-                                        href="#"
-                                        class="btn btn-outline-primary w-100"
-                                        >Add to Basket</a
-                                    >
-                                </div>
-                            </div>
-                            <div class="all-product">
-                                <img
-                                    src="/assets/frontend/images/image (9).png"
-                                    alt=""
-                                />
-                                <div class="card-body">
-                                    <h5 class="card-title">Colorful Pen</h5>
-                                    <p class="m-0">
-                                        <span class="text-warning">★★★★★</span>
-                                        <span class="text-muted"
-                                            >329 review</span
-                                        >
-                                    </p>
-                                    <p
-                                        class="vat d-flex align-items-center gap-2"
-                                    >
-                                        <span class="fw-bold">£3,974.40</span>
-                                        <span
-                                            class="text-muted text-decoration-line-through"
-                                            >£3,312.00 Excl. VAT</span
-                                        >
-                                    </p>
-                                    <a
-                                        href="#"
-                                        class="btn btn-outline-primary w-100"
-                                        >Add to Basket</a
-                                    >
-                                </div>
-                            </div>
-                            <div class="all-product">
-                                <img
-                                    src="/assets/frontend/images/image (9).png"
-                                    alt=""
-                                />
-                                <div class="card-body">
-                                    <h5 class="card-title">Colorful Pen</h5>
-                                    <p class="m-0">
-                                        <span class="text-warning">★★★★★</span>
-                                        <span class="text-muted"
-                                            >329 review</span
-                                        >
-                                    </p>
-                                    <p
-                                        class="vat d-flex align-items-center gap-2"
-                                    >
-                                        <span class="fw-bold">£3,974.40</span>
-                                        <span
-                                            class="text-muted text-decoration-line-through"
-                                            >£3,312.00 Excl. VAT</span
-                                        >
-                                    </p>
-                                    <a
-                                        href="#"
-                                        class="btn btn-outline-primary w-100"
-                                        >Add to Basket</a
-                                    >
-                                </div>
-                            </div>
-                            <div class="all-product">
-                                <img
-                                    src="/assets/frontend/images/image (9).png"
-                                    alt=""
-                                />
-                                <div class="card-body">
-                                    <h5 class="card-title">Colorful Pen</h5>
-                                    <p class="m-0">
-                                        <span class="text-warning">★★★★★</span>
-                                        <span class="text-muted"
-                                            >329 review</span
-                                        >
-                                    </p>
-                                    <p
-                                        class="vat d-flex align-items-center gap-2"
-                                    >
-                                        <span class="fw-bold">£3,974.40</span>
-                                        <span
-                                            class="text-muted text-decoration-line-through"
-                                            >£3,312.00 Excl. VAT</span
-                                        >
-                                    </p>
-                                    <a
-                                        href="#"
+                                        href=""
                                         class="btn btn-outline-primary w-100"
                                         >Add to Basket</a
                                     >

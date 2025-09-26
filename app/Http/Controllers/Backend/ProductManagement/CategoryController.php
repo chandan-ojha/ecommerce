@@ -15,7 +15,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::select('id', 'title', 'created_at')
+        $categories = Category::with([
+            'media:id,name,file_name,mime_type,extension,disk,directory',
+        ])
+            ->select('id', 'title', 'created_at', 'media_id')
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
@@ -39,9 +42,18 @@ class CategoryController extends Controller
         try {
             DB::beginTransaction();
 
+            $mediaId = null;
+
+            // Handle media upload if present
+            if ($request->hasFile('media')) {
+                $media   = uploadMedia($request->file('media'), directory: 'uploads/categories');
+                $mediaId = $media->id;
+            }
+
             Category::create([
                 'title'       => $request->title,
                 'description' => $request->description,
+                'media_id'    => $mediaId,
             ]);
 
             DB::commit();
@@ -63,6 +75,11 @@ class CategoryController extends Controller
     {
         try {
             $category = Category::findOrFail($id);
+
+            // Delete associated media if exists
+            if ($category->media_id) {
+                deleteMedia($category->media_id);
+            }
 
             $category->delete();
 

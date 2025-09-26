@@ -32,7 +32,7 @@ function deleteCategory(id) {
     confirmModal.value.show({
         text: "You want to proceed",
         onConfirm: () => {
-            router.delete(`/category/${id}`, {
+            router.delete(`/admin/category/${id}`, {
                 onSuccess: () => {
                     feedbackModal.value.show({
                         type: "success",
@@ -95,6 +95,7 @@ function deleteCategory(id) {
                         <table class="table table-centered">
                             <thead>
                                 <tr>
+                                    <th>Image</th>
                                     <th>Title</th>
                                     <th>Created At</th>
                                     <th class="text-end pe-4">Actions</th>
@@ -105,6 +106,18 @@ function deleteCategory(id) {
                                     v-for="category in categoryList"
                                     :key="category.id"
                                 >
+                                    <td>
+                                        <img
+                                            v-if="
+                                                category.media &&
+                                                category.media.url
+                                            "
+                                            :src="category.media.url"
+                                            alt="Category Image"
+                                            class="category-img"
+                                        />
+                                        <span v-else>N/A</span>
+                                    </td>
                                     <td>{{ category.title }}</td>
                                     <td>
                                         {{
@@ -173,4 +186,14 @@ function deleteCategory(id) {
     </AdminLayout>
 </template>
 
-<style scoped></style>
+<style scoped>
+.category-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 999px;
+    display: block;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+</style>

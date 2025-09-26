@@ -52,77 +52,74 @@ const user = page.props.auth?.user || null;
                     <!-- If user is logged in -->
                     <template v-if="user">
                         <!-- User Profile Dropdown -->
-                        <div class="dropdown">
+                        <div class="dropdown profile-img">
                             <a
-                                class="d-flex align-items-center text-decoration-none dropdown-toggle"
-                                href="#"
-                                id="userDropdown"
+                                class="d-inline-block"
+                                id="profileDropdown"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                             >
-                                <!-- Profile Image -->
                                 <img
                                     :src="`https://ui-avatars.com/api/?name=${encodeURIComponent(
                                         user.name
-                                    )}&background=0D8ABC&color=fff&size=40`"
-                                    alt="User"
-                                    width="40"
-                                    height="40"
-                                    class="rounded-circle me-2"
+                                    )}&background=FFB84D&color=000&size=40`"
+                                    class="rounded-circle"
+                                    alt="Profile"
+                                    width="45"
+                                    height="45"
                                 />
-                                <!-- User Name -->
-                                <div class="d-none d-md-block text-start">
-                                    <div class="fw-semibold">
-                                        {{ user.name }}
-                                    </div>
-                                    <small class="text-muted">{{
-                                        user.role || "Admin"
-                                    }}</small>
-                                </div>
                             </a>
-
-                            <!-- Dropdown Menu -->
-                            <ul
-                                class="dropdown-menu dropdown-menu-end"
-                                aria-labelledby="userDropdown"
+                            <div
+                                class="dropdown-menu dropdown-menu-end shadow p-2"
+                                aria-labelledby="profileDropdown"
+                                style="min-width: 225px"
                             >
-                                <!-- <li>
-                                    <a
-                                        class="dropdown-item d-flex align-items-center"
-                                        href="#"
-                                    >
-                                        <span class="material-icons me-2"
-                                            >person</span
-                                        >
-                                        My Account
-                                    </a>
-                                </li> -->
-                                <li>
-                                    <a
-                                        class="dropdown-item d-flex align-items-center gap-2"
-                                        :href="route('dashboard')"
-                                        target="_blank"
-                                    >
-                                        <span class="material-icons"
-                                            >admin_panel_settings</span
-                                        >
-                                        Admin Panel
-                                    </a>
-                                </li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li>
-                                    <Link
-                                        :href="route('logout')"
-                                        method="post"
-                                        class="dropdown-item d-flex align-items-center"
-                                    >
-                                        <span class="material-icons me-2"
-                                            >logout</span
-                                        >
-                                        Logout
-                                    </Link>
-                                </li>
-                            </ul>
+                                <div class="d-flex align-items-center mb-3">
+                                    <img
+                                        :src="`https://ui-avatars.com/api/?name=${encodeURIComponent(
+                                            user.name
+                                        )}&background=FFB84D&color=000&size=40`"
+                                        class="rounded-circle me-2"
+                                        alt="Profile"
+                                        width="60"
+                                        height="60"
+                                    />
+                                    <div class="text-start">
+                                        <h6 class="mb-0">
+                                            {{ user.name || "" }}
+                                        </h6>
+                                        <small class="text-muted">
+                                            {{ user.role || "" }}
+                                        </small>
+                                    </div>
+                                </div>
+                                <a
+                                    class="dropdown-item d-flex align-items-center gap-2 ps-2"
+                                >
+                                    <span class="material-icons">person</span>
+                                    My Account
+                                </a>
+                                <a
+                                    class="dropdown-item d-flex align-items-center gap-2 ps-2"
+                                    :href="route('admin.dashboard')"
+                                    target="_blank"
+                                    v-if="user.role === 'Admin'"
+                                >
+                                    <span class="material-icons">
+                                        admin_panel_settings
+                                    </span>
+                                    Admin Panel
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <Link
+                                    :href="route('logout')"
+                                    method="post"
+                                    class="dropdown-item d-flex align-items-center gap-2 ps-2 pt-2 pb-2"
+                                >
+                                    <span class="material-icons">logout</span>
+                                    Logout
+                                </Link>
+                            </div>
                         </div>
                     </template>
 

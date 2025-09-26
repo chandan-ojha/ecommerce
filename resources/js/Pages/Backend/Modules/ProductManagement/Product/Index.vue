@@ -35,7 +35,7 @@ function deleteProduct(id) {
     confirmModal.value.show({
         text: "You want to proceed",
         onConfirm: () => {
-            router.delete(`/product/${id}`, {
+            router.delete(`admin/product/${id}`, {
                 onSuccess: () => {
                     feedbackModal.value.show({
                         type: "success",
@@ -195,8 +195,8 @@ function deleteProduct(id) {
 
 <style scoped>
 .product-img {
-    max-width: 100px;
-    max-height: 100px;
+    max-width: 60px;
+    max-height: 60px;
     width: auto;
     height: auto;
 }

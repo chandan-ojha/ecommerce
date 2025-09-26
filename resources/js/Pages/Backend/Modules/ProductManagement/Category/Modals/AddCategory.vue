@@ -12,16 +12,18 @@ const props = defineProps({
 
 const page = usePage();
 const feedbackModal = ref(null);
+const fileInputRef = ref(null);
 
 const form = useForm({
     title: "",
+    media: null, // file input
 });
 
 /**
  * Add Category
  */
 function addCategory() {
-    form.post("/add-category", {
+    form.post("/admin/add-category", {
         preserveScroll: true,
         onSuccess: () => {
             const modalEl = document.getElementById("add_category_modal");
@@ -39,6 +41,10 @@ function addCategory() {
             });
             // Reset form
             form.reset();
+            // Clear file input
+            if (fileInputRef.value) {
+                fileInputRef.value.value = null;
+            }
         },
         onError: () => {
             // Show error message
@@ -100,6 +106,22 @@ function addCategory() {
                                         {{ form.errors.title }}
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-12">
+                            <div class="mb-3">
+                                <label for="formFile" class="form-label">
+                                    Upload Category Image
+                                </label>
+                                <input
+                                    class="form-control"
+                                    type="file"
+                                    id="formFile"
+                                    ref="fileInputRef"
+                                    @change="
+                                        (e) => (form.media = e.target.files[0])
+                                    "
+                                />
                             </div>
                         </div>
                     </form>

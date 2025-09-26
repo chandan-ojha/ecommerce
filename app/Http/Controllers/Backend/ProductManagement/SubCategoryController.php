@@ -16,7 +16,10 @@ class SubCategoryController extends Controller
      */
     public function index()
     {
-        $sub_categories = SubCategory::with('category:id,title')
+        $sub_categories = SubCategory::with([
+            'category:id,title',
+            'media:id,name,file_name,mime_type,extension,disk,directory',
+        ])
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
@@ -48,9 +51,18 @@ class SubCategoryController extends Controller
         try {
             DB::beginTransaction();
 
+            $mediaId = null;
+
+            // Handle media upload if present
+            if ($request->hasFile('media')) {
+                $media   = uploadMedia($request->file('media'), directory: 'uploads/categories');
+                $mediaId = $media->id;
+            }
+
             SubCategory::create([
                 'category_id' => $request->category_id,
                 'title'       => $request->title,
+                'media_id'    => $mediaId,
             ]);
 
             DB::commit();
@@ -72,6 +84,11 @@ class SubCategoryController extends Controller
     {
         try {
             $sub_category = SubCategory::findOrFail($id);
+
+            // Delete associated media if exists
+            if ($sub_category->media_id) {
+                deleteMedia($sub_category->media_id);
+            }
 
             $sub_category->delete();
 

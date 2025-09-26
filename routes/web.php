@@ -38,7 +38,8 @@ Route::get('/all-products', [ProductPageController::class, 'index'])->name('prod
 | Authenticated Routes List for Admin
 |---------------------------
 */
-Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     //User Manage

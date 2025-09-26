@@ -13,4 +13,9 @@ class SubCategory extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
+
+    public function media(): BelongsTo
+    {
+        return $this->belongsTo(Media::class, 'media_id', 'id');
+    }
 }

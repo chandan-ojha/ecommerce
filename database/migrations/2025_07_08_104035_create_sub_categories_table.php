@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->integer('status')->default(1);
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('media_id')->nullable()->constrained('media')->nullOnDelete();
             $table->timestamps();
         });
     }

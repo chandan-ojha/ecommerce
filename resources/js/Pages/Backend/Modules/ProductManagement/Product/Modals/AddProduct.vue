@@ -42,7 +42,7 @@ const subCategories = computed(() => {
  * Product Add
  */
 function productAdd() {
-    form.post("/add-product", {
+    form.post("/admin/add-product", {
         preserveScroll: true,
         onSuccess: () => {
             const modalEl = document.getElementById("add_product_modal");

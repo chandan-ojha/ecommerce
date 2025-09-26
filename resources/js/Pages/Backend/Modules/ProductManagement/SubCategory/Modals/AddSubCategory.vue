@@ -16,17 +16,19 @@ const props = defineProps({
 
 const page = usePage();
 const feedbackModal = ref(null);
+const fileInputRef = ref(null);
 
 const form = useForm({
     category_id: "",
     title: "",
+    media: null, // file input
 });
 
 /**
  * Add Sub Category
  */
 function addSubCategory() {
-    form.post("/add-sub-category", {
+    form.post("/admin/add-sub-category", {
         preserveScroll: true,
         onSuccess: () => {
             const modalEl = document.getElementById("addSubCategoryModal");
@@ -44,6 +46,10 @@ function addSubCategory() {
             });
             // Reset form
             form.reset();
+            // Clear file input
+            if (fileInputRef.value) {
+                fileInputRef.value.value = null;
+            }
         },
         onError: () => {
             // Show error message
@@ -134,6 +140,23 @@ function addSubCategory() {
                                     >
                                         {{ form.errors.title }}
                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12">
+                                <div class="mb-3">
+                                    <label for="formFile" class="form-label">
+                                        Upload Sub Category Image
+                                    </label>
+                                    <input
+                                        class="form-control"
+                                        type="file"
+                                        id="formFile"
+                                        ref="fileInputRef"
+                                        @change="
+                                            (e) =>
+                                                (form.media = e.target.files[0])
+                                        "
+                                    />
                                 </div>
                             </div>
                         </div>

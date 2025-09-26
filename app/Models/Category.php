@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
@@ -12,5 +13,10 @@ class Category extends Model
     public function subCategories(): HasMany
     {
         return $this->hasMany(SubCategory::class);
+    }
+
+    public function media(): BelongsTo
+    {
+        return $this->belongsTo(Media::class, 'media_id', 'id');
     }
 }
