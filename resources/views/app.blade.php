@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
     @routes
-    @vite('resources/js/app.js')
+    @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
     @inertiaHead
 </head>
 
