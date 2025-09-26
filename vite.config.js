@@ -7,7 +7,7 @@ export default defineConfig({
         laravel({
             input: [
                 "resources/js/app.js", // Frontend
-                "resources/js/admin.js", // Admin
+                "resources/js/backend.js", // Admin
             ],
             ssr: "resources/js/ssr.js",
             refresh: true,
