@@ -27,7 +27,6 @@
 <body>
     @inertia
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    {{-- <script src="./assets/js/app.js"></script> --}}
     <script>
         AOS.init({
             offset: 100,
