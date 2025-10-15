@@ -91,6 +91,61 @@ class ProductController extends Controller
     }
 
     /**
+     * Update an existing product.
+     */
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'category_id'     => 'required',
+            'sub_category_id' => 'nullable',
+            'title'           => 'required',
+            'quantity'        => 'nullable|integer|min:0',
+            'price'           => 'required|numeric|min:0',
+            'description'     => 'nullable',
+            'media_id'        => 'nullable|integer',
+        ], [
+            'category_id.required' => 'Select a category.',
+            'title.required'       => 'Product title is required.',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $product = Product::findOrFail($id);
+
+            $mediaId = $product->media_id;
+
+            if ($request->hasFile('media')) {
+                if ($mediaId) {
+                    deleteMedia($mediaId);
+                }
+                // Upload new media
+                $media   = uploadMedia($request->file('media'), directory: 'uploads/products');
+                $mediaId = $media->id;
+            }
+
+            // Update product details
+            $product->update([
+                'category_id'     => $request->category_id,
+                'sub_category_id' => $request->sub_category_id,
+                'title'           => $request->title,
+                'quantity'        => $request->quantity ?? 0,
+                'price'           => $request->price,
+                'description'     => $request->description,
+                'media_id'        => $mediaId,
+            ]);
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Product updated successfully!');
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Failed to update Product: ' . $e->getMessage());
+        }
+    }
+
+    /**
      * Delete a product.
      */
     public function destroy($id)
