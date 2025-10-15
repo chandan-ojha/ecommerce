@@ -60,6 +60,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     //Product Setup
     Route::get('/product', [ProductController::class, 'index'])->name('product.index');
     Route::post('/add-product', [ProductController::class, 'store']);
+    Route::post('/update-product/{id}', [ProductController::class, 'update']);
     Route::delete('/product/{id}', [ProductController::class, 'destroy']);
 
     Route::get('change', [LanguageController::class, 'change'])->name('lang.change');

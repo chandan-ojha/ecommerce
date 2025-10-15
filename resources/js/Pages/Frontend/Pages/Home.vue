@@ -175,7 +175,7 @@ const categoryList = computed(() => props.categories ?? []);
                         :key="category.id"
                         class="single-category"
                     >
-                        <img :src="category.media.url" alt="" />
+                        <img :src="category.media?.url || ''" alt="" />
                         <p>{{ category?.title ?? "" }}</p>
                     </div>
                 </div>
@@ -209,7 +209,7 @@ const categoryList = computed(() => props.categories ?? []);
                                 >
                                     <div class="card">
                                         <img
-                                            :src="product.media.url"
+                                            :src="product.media?.url || ''"
                                             class="card-img-top"
                                             alt=""
                                         />
@@ -465,7 +465,7 @@ const categoryList = computed(() => props.categories ?? []);
                         :key="product.id"
                         class="single-more-product"
                     >
-                        <img :src="product.media.url" alt="" />
+                        <img :src="product.media?.url || ''" alt="" />
 
                         <div class="card-body">
                             <h5 class="card-title">

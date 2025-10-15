@@ -4,6 +4,7 @@ import AdminLayout from "@/Pages/Backend/Layouts/AdminLayout.vue";
 import { Head, usePage, router } from "@inertiajs/vue3";
 import { Modal } from "bootstrap";
 import AddProduct from "./Modals/AddProduct.vue";
+import EditProduct from "./Modals/EditProduct.vue";
 import FeedbackModal from "@/Pages/Backend/Components/FeedbackModal.vue";
 import ConfirmModal from "@/Pages/Backend/Components/ConfirmModal.vue";
 import Pagination from "@/Pages/Backend/Components/Pagination.vue";
@@ -35,7 +36,7 @@ function deleteProduct(id) {
     confirmModal.value.show({
         text: "You want to proceed",
         onConfirm: () => {
-            router.delete(`admin/product/${id}`, {
+            router.delete(`product/${id}`, {
                 onSuccess: () => {
                     feedbackModal.value.show({
                         type: "success",
@@ -51,6 +52,12 @@ function deleteProduct(id) {
             });
         },
     });
+}
+
+const editProductModal = ref(null);
+
+function editProduct(product) {
+    editProductModal.value.show(product);
 }
 </script>
 
@@ -149,8 +156,8 @@ function deleteProduct(id) {
                                             <span
                                                 class="material-icons icon text-warning"
                                                 title="Edit"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#add_product_modal"
+                                                role="button"
+                                                @click="editProduct(product)"
                                             >
                                                 drive_file_rename_outline
                                             </span>
@@ -186,6 +193,13 @@ function deleteProduct(id) {
         </div>
         <!-- ===== Add Product Modal -->
         <AddProduct :errors="props.errors" :categories="props.categories" />
+        <!-- ===== Edit Product Modal -->
+        <EditProduct
+            ref="editProductModal"
+            :errors="props.errors"
+            :categories="props.categories"
+        />
+
         <!-- Feedback Modal -->
         <FeedbackModal ref="feedbackModal" />
         <!-- Confirm Modal -->
