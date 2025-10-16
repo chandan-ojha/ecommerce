@@ -504,26 +504,19 @@ const productsList = computed(() => props.products ?? []);
                                 :key="product.id"
                                 class="all-product"
                             >
-                                <Link
-                                    :href="route('products.show', product.id)"
-                                    class="d-block"
-                                >
-                                    <img :src="product.media.url" alt="" />
-                                </Link>
+                                <img :src="product.media.url" alt="" />
+
                                 <div class="card-body">
-                                    <h5 class="card-title">
-                                        <Link
-                                            :href="
-                                                route(
-                                                    'products.show',
-                                                    product.id
-                                                )
-                                            "
-                                            class="text-decoration-none text-dark d-block"
-                                        >
+                                    <Link
+                                        :href="
+                                            route('products.show', product.id)
+                                        "
+                                        class="text-decoration-none text-dark d-block"
+                                    >
+                                        <h5 class="card-title">
                                             {{ product?.title ?? "" }}
-                                        </Link>
-                                    </h5>
+                                        </h5>
+                                    </Link>
                                     <p class="m-0">
                                         <span class="text-warning">★★★★★</span>
                                         <span class="text-muted"
