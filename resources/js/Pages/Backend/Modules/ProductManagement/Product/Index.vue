@@ -3,17 +3,14 @@ import { ref, computed } from "vue";
 import AdminLayout from "@/Pages/Backend/Layouts/AdminLayout.vue";
 import { Head, usePage, router } from "@inertiajs/vue3";
 import { Modal } from "bootstrap";
-import AddProduct from "./Modals/AddProduct.vue";
-import EditProduct from "./Modals/EditProduct.vue";
+import ProductModal from "./Modals/ProductModal.vue";
 import FeedbackModal from "@/Pages/Backend/Components/FeedbackModal.vue";
 import ConfirmModal from "@/Pages/Backend/Components/ConfirmModal.vue";
 import Pagination from "@/Pages/Backend/Components/Pagination.vue";
 
 const props = defineProps({
     title: String,
-    errors: {
-        type: Object,
-    },
+    errors: Object,
     products: {
         type: Object,
         required: true,
@@ -28,6 +25,7 @@ const page = usePage();
 const productsList = computed(() => props.products.data ?? []);
 const feedbackModal = ref(null);
 const confirmModal = ref(null);
+const productModal = ref(null);
 
 /**
  * Product Delete
@@ -54,10 +52,14 @@ function deleteProduct(id) {
     });
 }
 
-const editProductModal = ref(null);
+/** Open Add Modal */
+function addProduct() {
+    productModal.value.show();
+}
 
+/** Open Edit Modal */
 function editProduct(product) {
-    editProductModal.value.show(product);
+    productModal.value.show(product);
 }
 </script>
 
@@ -69,8 +71,7 @@ function editProduct(product) {
                 <h3 class="title">Product List</h3>
                 <button
                     class="btn btn_primary d-flex align-items-center"
-                    data-bs-toggle="modal"
-                    data-bs-target="#add_product_modal"
+                    @click="addProduct"
                 >
                     <span class="material-icons add_icon">add</span>
                     Add Product
@@ -121,13 +122,10 @@ function editProduct(product) {
                                 >
                                     <td>
                                         <img
-                                            v-if="
-                                                product.media &&
-                                                product.media.url
-                                            "
+                                            v-if="product.media?.url"
                                             :src="product.media.url"
-                                            alt="Product Image"
                                             class="product-img"
+                                            alt=""
                                         />
                                         <span v-else>N/A</span>
                                     </td>
@@ -191,15 +189,13 @@ function editProduct(product) {
                 </div>
             </div>
         </div>
-        <!-- ===== Add Product Modal -->
-        <AddProduct :errors="props.errors" :categories="props.categories" />
-        <!-- ===== Edit Product Modal -->
-        <EditProduct
-            ref="editProductModal"
+
+        <!-- Product Modal (Add/Edit) -->
+        <ProductModal
+            ref="productModal"
             :errors="props.errors"
             :categories="props.categories"
         />
-
         <!-- Feedback Modal -->
         <FeedbackModal ref="feedbackModal" />
         <!-- Confirm Modal -->
