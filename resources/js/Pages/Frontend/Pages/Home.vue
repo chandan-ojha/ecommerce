@@ -517,14 +517,14 @@ const onSaleProductChunks = computed(() =>
                         </Link>
 
                         <div class="card-body">
-                            <Link
-                                :href="route('products.show', product.id)"
-                                class="text-decoration-none text-dark d-block"
-                            >
-                                <h5 class="card-title">
+                            <h5 class="card-title">
+                                <Link
+                                    :href="route('products.show', product.id)"
+                                    class="text-decoration-none text-dark d-block"
+                                >
                                     {{ product?.title ?? "" }}
-                                </h5>
-                            </Link>
+                                </Link>
+                            </h5>
                             <p class="m-0">
                                 <span class="text-warning">★★★★★</span>
                                 <span class="text-muted">329 review</span>
