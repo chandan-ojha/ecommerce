@@ -456,7 +456,7 @@ button:focus {
 
 .carousel-indicators button.active {
     opacity: 1;
-    background-color: white;
+    background-color: #ee750b;
     /* Active indicator is a solid white circle */
 }
 
