@@ -21,9 +21,10 @@ Route::get('/optimized', [AppOptimizationController::class, 'optimize']);
 | Guest Routes (Unauthenticated Users)
 |--------------------------------------
 */
-
-Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
-Route::post('login', [AuthenticatedSessionController::class, 'store']);
+Route::middleware('guest')->group(function () {
+    Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+});
 
 /*
 |---------------------------
@@ -32,6 +33,7 @@ Route::post('login', [AuthenticatedSessionController::class, 'store']);
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/all-products', [ProductPageController::class, 'index'])->name('products');
+Route::get('/product/{id}', [ProductPageController::class, 'show'])->name('products.show');
 
 /*
 |---------------------------

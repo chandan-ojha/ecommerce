@@ -1,7 +1,19 @@
 <script setup>
-import { Link, usePage } from "@inertiajs/vue3";
+import { Link, usePage, router } from "@inertiajs/vue3";
 const page = usePage();
 const currentLocale = page.props.locale;
+
+function logout() {
+    router.post(
+        route("logout"),
+        {},
+        {
+            onFinish: () => {
+                window.location.href = "/";
+            },
+        }
+    );
+}
 </script>
 
 <template>
@@ -186,15 +198,10 @@ const currentLocale = page.props.locale;
                             </a>
                         </li>
                         <li>
-                            <Link
-                                class="dropdown-item"
-                                :href="route('logout')"
-                                method="post"
-                                as="button"
-                            >
+                            <a href="#" class="dropdown-item" @click="logout">
                                 <span class="material-icons">lock</span>
                                 <span class="text">Logout</span>
-                            </Link>
+                            </a>
                         </li>
                     </ul>
                 </div>

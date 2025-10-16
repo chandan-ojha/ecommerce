@@ -36,6 +36,6 @@ class HomeController extends Controller
             'categories'     => $categories,
             'products'       => $products,
             'onSaleProducts' => $onSaleProducts,
-        ]);
+        ])->rootView('app');
     }
 }
