@@ -2,6 +2,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
 
@@ -13,6 +14,20 @@ class HandleInertiaRequests extends Middleware
      * @var string
      */
     protected $rootView = 'app';
+
+    /**
+     * Determine the current root view dynamically.
+     */
+    public function rootView(Request $request): string
+    {
+        // If user is authenticated, use backend layout
+        if (Auth::check()) {
+            return 'backend';
+        }
+
+        // If guest, use guest layout
+        return 'app';
+    }
 
     /**
      * Determine the current asset version.

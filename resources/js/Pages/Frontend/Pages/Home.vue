@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import FrontendLayout from "@/Pages/Frontend/Layouts/FrontendLayout.vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, Link } from "@inertiajs/vue3";
 
 const props = defineProps({
     title: String,
@@ -22,6 +22,20 @@ const props = defineProps({
 const onSaleProductList = computed(() => props.onSaleProducts.data ?? []);
 const productsList = computed(() => props.products.data ?? []);
 const categoryList = computed(() => props.categories ?? []);
+
+// Function to chunk array into groups of N
+const chunkArray = (array, size) => {
+    const chunks = [];
+    for (let i = 0; i < array.length; i += size) {
+        chunks.push(array.slice(i, i + size));
+    }
+    return chunks;
+};
+
+// Chunk products into slides of 4
+const onSaleProductChunks = computed(() =>
+    chunkArray(onSaleProductList.value, 4)
+);
 </script>
 
 <template>
@@ -200,23 +214,53 @@ const categoryList = computed(() => props.categories ?? []);
                 >
                     <div class="carousel-inner">
                         <!-- First slide (4 cards) -->
-                        <div class="carousel-item active ps-3 pe-3 pb-3">
+                        <div
+                            v-for="(chunk, index) in onSaleProductChunks"
+                            :key="index"
+                            :class="[
+                                'carousel-item',
+                                index === 0 ? 'active' : '',
+                                'ps-3',
+                                'pe-3',
+                                'pb-3',
+                            ]"
+                        >
                             <div class="row">
                                 <div
-                                    v-for="product in onSaleProductList"
+                                    v-for="product in chunk"
                                     :key="product.id"
                                     class="col-lg-3 col-md-6 col-sm-6"
                                 >
                                     <div class="card">
-                                        <img
-                                            :src="product.media?.url || ''"
-                                            class="card-img-top"
-                                            alt=""
-                                        />
+                                        <Link
+                                            :href="
+                                                route(
+                                                    'products.show',
+                                                    product.id
+                                                )
+                                            "
+                                            class="d-block"
+                                        >
+                                            <img
+                                                :src="product.media?.url || ''"
+                                                class="card-img-top"
+                                                alt=""
+                                            />
+                                        </Link>
                                         <div class="card-body">
-                                            <h5 class="card-title">
-                                                {{ product?.title ?? "" }}
-                                            </h5>
+                                            <Link
+                                                :href="
+                                                    route(
+                                                        'products.show',
+                                                        product.id
+                                                    )
+                                                "
+                                                class="text-decoration-none text-dark d-block"
+                                            >
+                                                <h5 class="card-title">
+                                                    {{ product?.title ?? "" }}
+                                                </h5>
+                                            </Link>
                                             <p class="m-0">
                                                 <span class="text-warning"
                                                     >★★★★★</span
@@ -465,12 +509,22 @@ const categoryList = computed(() => props.categories ?? []);
                         :key="product.id"
                         class="single-more-product"
                     >
-                        <img :src="product.media?.url || ''" alt="" />
+                        <Link
+                            :href="route('products.show', product.id)"
+                            class="d-block"
+                        >
+                            <img :src="product.media?.url || ''" alt="" />
+                        </Link>
 
                         <div class="card-body">
-                            <h5 class="card-title">
-                                {{ product?.title ?? "" }}
-                            </h5>
+                            <Link
+                                :href="route('products.show', product.id)"
+                                class="text-decoration-none text-dark d-block"
+                            >
+                                <h5 class="card-title">
+                                    {{ product?.title ?? "" }}
+                                </h5>
+                            </Link>
                             <p class="m-0">
                                 <span class="text-warning">★★★★★</span>
                                 <span class="text-muted">329 review</span>

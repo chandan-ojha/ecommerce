@@ -17,9 +17,21 @@ class ProductPageController extends Controller
 
         // return response()->json(['data' => $products]);
 
-        return Inertia::render('Frontend/Pages/Product', [
+        return Inertia::render('Frontend/Pages/Product/Index', [
             'title'    => 'Product',
             'products' => $products,
+        ]);
+    }
+
+    public function show($id)
+    {
+        $product = Product::with([
+            'media:id,name,file_name,mime_type,extension,disk,directory',
+        ])->findOrFail($id);
+
+        return Inertia::render('Frontend/Pages/Product/Details', [
+            'title'   => $product->name ?? 'Product Detail',
+            'product' => $product,
         ]);
     }
 }
