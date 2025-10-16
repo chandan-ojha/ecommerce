@@ -21,7 +21,7 @@ class HomeController extends Controller
             'media:id,name,file_name,mime_type,extension,disk,directory',
         ])
             ->orderBy('created_at', 'desc')
-            ->paginate(5);
+            ->paginate(8);
 
         $products = Product::with([
             'media:id,name,file_name,mime_type,extension,disk,directory',
