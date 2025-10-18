@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import FrontendLayout from "@/Pages/Frontend/Layouts/FrontendLayout.vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, router } from "@inertiajs/vue3";
 
 const props = defineProps({
     title: String,
@@ -10,6 +10,14 @@ const props = defineProps({
         required: true,
     },
 });
+
+const addToCart = (product) => {
+    router.post(route("cart.store", product), {
+        preserveScroll: true,
+        preserveState: true,
+        onSuccess: (page) => {},
+    });
+};
 </script>
 
 <template>
@@ -56,7 +64,11 @@ const props = defineProps({
                                 <input type="text" value="01" />
                                 <span>+</span>
                             </div>
-                            <button class="btn btn-primary ms-3 px-4">
+                            <button
+                                @click="addToCart(product)"
+                                type="button"
+                                class="btn btn-primary ms-3 px-4"
+                            >
                                 ADD TO CART
                             </button>
                         </div>

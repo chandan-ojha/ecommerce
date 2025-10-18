@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import FrontendLayout from "@/Pages/Frontend/Layouts/FrontendLayout.vue";
-import { Head, Link } from "@inertiajs/vue3";
+import { Head, Link, router } from "@inertiajs/vue3";
 
 const props = defineProps({
     title: String,
@@ -36,6 +36,14 @@ const chunkArray = (array, size) => {
 const onSaleProductChunks = computed(() =>
     chunkArray(onSaleProductList.value, 4)
 );
+
+const addToCart = (product) => {
+    router.post(route("cart.store", product), {
+        preserveScroll: true,
+        preserveState: true,
+        onSuccess: (page) => {},
+    });
+};
 </script>
 
 <template>
@@ -279,11 +287,13 @@ const onSaleProductChunks = computed(() =>
                                                     }}</span
                                                 >
                                             </p>
-                                            <a
-                                                href="#"
+                                            <button
+                                                type="button"
+                                                @click="addToCart(product)"
                                                 class="btn btn-outline-primary w-100"
-                                                >Add to Basket</a
                                             >
+                                                Add to Basket
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -529,9 +539,13 @@ const onSaleProductChunks = computed(() =>
                                     <p>৳ {{ product?.price ?? "" }}</p>
                                 </span>
                             </p>
-                            <a href="#" class="btn btn-outline-primary w-100"
-                                >Add to Basket</a
+                            <button
+                                type="button"
+                                @click="addToCart(product)"
+                                class="btn btn-outline-primary w-100"
                             >
+                                Add to Basket
+                            </button>
                         </div>
                     </div>
                 </div>
