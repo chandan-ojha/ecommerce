@@ -24,4 +24,9 @@ class Product extends Model
     {
         return $this->belongsTo(Media::class, 'media_id', 'id');
     }
+
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class);
+    }
 }

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import FrontendLayout from "@/Pages/Frontend/Layouts/FrontendLayout.vue";
-import { Head, Link } from "@inertiajs/vue3";
+import { Head, Link, router } from "@inertiajs/vue3";
 
 const props = defineProps({
     title: String,
@@ -12,6 +12,14 @@ const props = defineProps({
 });
 
 const productsList = computed(() => props.products ?? []);
+
+const addToCart = (product) => {
+    router.post(route("cart.store", product), {
+        preserveScroll: true,
+        preserveState: true,
+        onSuccess: (page) => {},
+    });
+};
 </script>
 
 <template>
@@ -530,11 +538,13 @@ const productsList = computed(() => props.products ?? []);
                                             >৳ {{ product?.price ?? "" }}</span
                                         >
                                     </p>
-                                    <a
-                                        href=""
+                                    <button
+                                        type="button"
+                                        @click="addToCart(product)"
                                         class="btn btn-outline-primary w-100"
-                                        >Add to Basket</a
                                     >
+                                        Add to Basket
+                                    </button>
                                 </div>
                             </div>
                         </div>

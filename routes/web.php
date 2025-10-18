@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\ProductManagement\CategoryController;
 use App\Http\Controllers\Backend\ProductManagement\ProductController;
 use App\Http\Controllers\Backend\ProductManagement\SubCategoryController;
 use App\Http\Controllers\Backend\UserManagement\UserController;
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\ProductPageController;
 use App\Http\Controllers\LanguageController;
@@ -34,6 +35,14 @@ Route::middleware('guest')->group(function () {
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/all-products', [ProductPageController::class, 'index'])->name('products');
 Route::get('/product/{id}', [ProductPageController::class, 'show'])->name('products.show');
+
+//add to cart
+Route::prefix('cart')->controller(CartController::class)->group(function () {
+    Route::get('view', 'view')->name('cart.view');
+    Route::post('store/{product}', 'store')->name('cart.store');
+    Route::patch('update/{product}', 'update')->name('cart.update');
+    Route::delete('delete/{product}', 'delete')->name('cart.delete');
+});
 
 /*
 |---------------------------

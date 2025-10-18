@@ -1,8 +1,10 @@
 <script setup>
+import { ref, computed } from "vue";
 import { Link, usePage } from "@inertiajs/vue3";
 
 const page = usePage();
 const user = page.props.auth?.user || null;
+const cart = computed(() => page.props.cart ?? null);
 </script>
 
 <template>
@@ -46,8 +48,20 @@ const user = page.props.auth?.user || null;
                     </div>
                 </div>
                 <div class="login-part">
-                    <!-- Shopping Cart Icon -->
-                    <span class="material-icons me-3">shopping_cart</span>
+                    <!-- Shopping Cart -->
+                    <div class="position-relative d-inline-block me-3">
+                        <!-- Cart Icon -->
+                        <span class="material-icons fs-3 text-dark"
+                            >shopping_cart</span
+                        >
+                        <span
+                            v-if="cart.data.count > 0"
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                        >
+                            {{ cart.data.count }}
+                            <span class="visually-hidden">cart items</span>
+                        </span>
+                    </div>
 
                     <!-- If user is logged in -->
                     <template v-if="user">
