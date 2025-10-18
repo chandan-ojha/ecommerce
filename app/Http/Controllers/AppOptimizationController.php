@@ -26,4 +26,27 @@ class AppOptimizationController extends Controller
             ['Content-Type' => 'text/html']
         );
     }
+
+    public function migrate()
+    {
+        Artisan::call('migrate:status');
+        $output = Artisan::output();
+
+        if (strpos($output, 'No') !== false) {
+            Artisan::call('migrate', ['--force' => true]);
+
+            return response()->make(
+                "Migrations run successfully!",
+                200,
+                ['Content-Type' => 'text/html']
+            );
+        }
+
+        return response()->make(
+            "Nothing to migrate.",
+            200,
+            ['Content-Type' => 'text/html']
+        );
+    }
+
 }
