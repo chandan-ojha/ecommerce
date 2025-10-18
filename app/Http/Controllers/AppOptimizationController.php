@@ -29,21 +29,10 @@ class AppOptimizationController extends Controller
 
     public function migrate()
     {
-        Artisan::call('migrate:status');
-        $output = Artisan::output();
-
-        if (strpos($output, 'No') !== false) {
-            Artisan::call('migrate', ['--force' => true]);
-
-            return response()->make(
-                "Migrations run successfully!",
-                200,
-                ['Content-Type' => 'text/html']
-            );
-        }
+        Artisan::call('migrate', ['--force' => true]);
 
         return response()->make(
-            "Nothing to migrate.",
+            "Migrations executed (only pending ones will run).",
             200,
             ['Content-Type' => 'text/html']
         );
