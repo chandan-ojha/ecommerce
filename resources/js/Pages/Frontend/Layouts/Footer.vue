@@ -209,6 +209,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
                             <div class="wrap-footer-item">
                                 <h3 class="item-header">Social network</h3>
@@ -219,56 +220,34 @@
                                                 <a
                                                     href="#"
                                                     class="link-to-item"
-                                                    title="twitter"
-                                                    ><i
-                                                        class="fa fa-twitter"
-                                                        aria-hidden="true"
-                                                    ></i
-                                                ></a>
-                                            </li>
-                                            <li>
-                                                <a
-                                                    href="#"
-                                                    class="link-to-item"
                                                     title="facebook"
-                                                    ><i
-                                                        class="fa fa-facebook"
-                                                        aria-hidden="true"
-                                                    ></i
-                                                ></a>
-                                            </li>
-                                            <li>
-                                                <a
-                                                    href="#"
-                                                    class="link-to-item"
-                                                    title="pinterest"
-                                                    ><i
-                                                        class="fa fa-pinterest"
-                                                        aria-hidden="true"
-                                                    ></i
-                                                ></a>
+                                                >
+                                                    <i
+                                                        class="fa-brands fa-facebook"
+                                                    ></i>
+                                                </a>
                                             </li>
                                             <li>
                                                 <a
                                                     href="#"
                                                     class="link-to-item"
                                                     title="instagram"
-                                                    ><i
-                                                        class="fa fa-instagram"
-                                                        aria-hidden="true"
-                                                    ></i
-                                                ></a>
+                                                >
+                                                    <i
+                                                        class="fa-brands fa-instagram"
+                                                    ></i>
+                                                </a>
                                             </li>
                                             <li>
                                                 <a
                                                     href="#"
                                                     class="link-to-item"
-                                                    title="vimeo"
-                                                    ><i
-                                                        class="fa fa-vimeo"
-                                                        aria-hidden="true"
-                                                    ></i
-                                                ></a>
+                                                    title="twitter"
+                                                >
+                                                    <i
+                                                        class="fa-brands fa-twitter"
+                                                    ></i>
+                                                </a>
                                             </li>
                                         </ul>
                                     </div>

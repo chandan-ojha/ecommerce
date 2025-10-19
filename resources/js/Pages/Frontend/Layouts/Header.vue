@@ -48,20 +48,21 @@ const cart = computed(() => page.props.cart ?? null);
                     </div>
                 </div>
                 <div class="login-part">
-                    <!-- Shopping Cart -->
-                    <div class="position-relative d-inline-block me-3">
-                        <!-- Cart Icon -->
-                        <span class="material-icons fs-3 text-dark"
-                            >shopping_cart</span
-                        >
-                        <span
-                            v-if="cart.data.count > 0"
-                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                        >
-                            {{ cart.data.count }}
-                            <span class="visually-hidden">cart items</span>
-                        </span>
-                    </div>
+                    <Link :href="route('cart.view')">
+                        <div class="position-relative d-inline-block me-3">
+                            <!-- Cart Icon -->
+                            <span class="material-icons fs-3 text-dark"
+                                >shopping_cart</span
+                            >
+                            <span
+                                v-if="cart.data.count > 0"
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            >
+                                {{ cart.data.count }}
+                                <span class="visually-hidden">cart items</span>
+                            </span>
+                        </div>
+                    </Link>
 
                     <!-- If user is logged in -->
                     <template v-if="user">
