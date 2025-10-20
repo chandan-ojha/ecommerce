@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+// use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Inertia\Inertia;
 
@@ -15,7 +16,7 @@ class ProductPageController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        // return response()->json(['data' => $products]);
+        // return response()->json(['data' => ProductResource::collection($products)]);
 
         return Inertia::render('Frontend/Pages/Product/Index', [
             'title'    => 'Product',

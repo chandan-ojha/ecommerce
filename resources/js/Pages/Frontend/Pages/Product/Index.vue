@@ -13,11 +13,26 @@ const props = defineProps({
 
 const productsList = computed(() => props.products ?? []);
 
+// const addToCart = (product) => {
+//     router.post(route("cart.store", product), {
+//         preserveScroll: true,
+//         preserveState: true,
+//         onSuccess: (page) => {},
+//     });
+// };
+
+// add product to cart
 const addToCart = (product) => {
-    router.post(route("cart.store", product), {
-        preserveScroll: true,
-        preserveState: true,
-        onSuccess: (page) => {},
+    fetch(`/cart/store/${product.id}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": document
+                .querySelector('meta[name="csrf-token"]')
+                ?.getAttribute("content"),
+        },
+    }).then(() => {
+        router.reload({ only: ["cart"] });
     });
 };
 </script>
