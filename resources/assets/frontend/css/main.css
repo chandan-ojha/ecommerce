@@ -356,13 +356,12 @@ button:focus {
 
 .slider .carousel-item .slider-image {
     width: 100%;
-    animation: zoomInOut 10s infinite ease-in-out;
+    /* animation: zoomInOut 10s infinite ease-in-out; */
     position: relative;
     z-index: 1;
-    height: 408px;
 }
 
-@keyframes zoomInOut {
+/* @keyframes zoomInOut {
     0% {
         transform: scale(1);
     }
@@ -370,7 +369,7 @@ button:focus {
     100% {
         transform: scale(1.2);
     }
-}
+} */
 
 .slider .image-overlay {
     background: linear-gradient(to right, #d1cfcf9c 0%, rgb(0 0 0 / 27%) 100%);
@@ -431,11 +430,9 @@ button:focus {
 .carousel-indicators {
     justify-content: center;
     position: absolute;
-    bottom: 20px;
-    left: 3%;
-    margin: 0;
+    left: 50%;
+    margin-left: -36px;
     width: 72px;
-    height: 107px;
 }
 .carousel-inner {
     border-radius: 12px;

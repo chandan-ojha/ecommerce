@@ -12,6 +12,14 @@ const products = computed(() => usePage().props.cart.data.products);
 
 const total = computed(() => usePage().props.cart.data.total);
 const itemId = (id) => carts.value.findIndex((item) => item.product_id === id);
+
+const update = (product, quantity) =>
+    router.patch(route("cart.update", product), {
+        quantity,
+    });
+
+//remove form cart
+const remove = (product) => router.delete(route("cart.delete", product));
 </script>
 
 <template>
@@ -38,18 +46,48 @@ const itemId = (id) => carts.value.findIndex((item) => item.product_id === id);
                                     class="d-flex align-items-center justify-content-between"
                                 >
                                     <div class="quantity-box">
-                                        <button>-</button>
+                                        <button
+                                            @click.prevent="
+                                                update(
+                                                    product,
+                                                    carts[itemId(product.id)]
+                                                        .quantity - 1
+                                                )
+                                            "
+                                            :disabled="
+                                                carts[itemId(product.id)]
+                                                    .quantity <= 1
+                                            "
+                                        >
+                                            -
+                                        </button>
                                         <input
-                                            type="text"
-                                            value="01"
+                                            type="number"
+                                            v-model="
+                                                carts[itemId(product.id)]
+                                                    .quantity
+                                            "
                                             readonly
                                         />
-                                        <button>+</button>
+                                        <button
+                                            @click.prevent="
+                                                update(
+                                                    product,
+                                                    carts[itemId(product.id)]
+                                                        .quantity + 1
+                                                )
+                                            "
+                                        >
+                                            +
+                                        </button>
                                     </div>
                                     <div>
-                                        <span class="material-icons delete"
-                                            >delete</span
+                                        <a
+                                            @click="remove(product)"
+                                            class="material-icons delete"
                                         >
+                                            delete
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -82,24 +120,26 @@ const itemId = (id) => carts.value.findIndex((item) => item.product_id === id);
                                 <span class="item">Total</span>
                                 <span class="total">৳ {{ total }}</span>
                             </div>
-                            <p class="text-muted small">
+                            <!-- <p class="text-muted small">
                                 Taxes and shipping calculated at checkout<br />lock
                                 Check Out – $299.98
-                            </p>
+                            </p> -->
 
-                            <div class="Postcode">
-                                <label for="">Postcode</label>
+                            <!-- <div class="Postcode">
+                                <label for="">Cupon Code</label>
                                 <input
                                     type="text"
                                     class="form-control mb-3"
                                     placeholder="Enter Code"
                                 />
-                            </div>
+                            </div> -->
                             <button class="btn-checkout w-100 mb-2">
                                 Checkout Now
                             </button>
 
-                            <span class="Continue">Continue Shopping</span>
+                            <Link :href="route('products')" class="Continue">
+                                Continue Shopping
+                            </Link>
                         </div>
                     </div>
                 </div>
