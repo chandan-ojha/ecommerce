@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import FrontendLayout from "@/Pages/Frontend/Layouts/FrontendLayout.vue";
-import { Head, router } from "@inertiajs/vue3";
+import { Head, Link, router, usePage } from "@inertiajs/vue3";
 
 const props = defineProps({
     title: String,
@@ -10,6 +10,9 @@ const props = defineProps({
         required: true,
     },
 });
+
+const carts = computed(() => usePage().props.cart.data.items);
+const itemId = (id) => carts.value.findIndex((item) => item.product_id === id);
 
 // add product to cart
 const addToCart = (product) => {
@@ -25,6 +28,11 @@ const addToCart = (product) => {
         router.reload({ only: ["cart"] });
     });
 };
+
+const update = (product, quantity) =>
+    router.patch(route("cart.update", product), {
+        quantity,
+    });
 </script>
 
 <template>
@@ -67,10 +75,42 @@ const addToCart = (product) => {
                         </div>
                         <div class="d-flex align-items-center product-qty">
                             <div class="add-product d-flex align-items-center">
-                                <span>-</span>
-                                <input type="text" value="01" />
-                                <span>+</span>
+                                <span
+                                    @click.prevent="
+                                        if (
+                                            (carts[itemId(product.id)]
+                                                ?.quantity ?? 1) > 0
+                                        ) {
+                                            update(
+                                                product,
+                                                (carts[itemId(product.id)]
+                                                    ?.quantity ?? 1) - 1
+                                            );
+                                        }
+                                    "
+                                >
+                                    -
+                                </span>
+                                <input
+                                    type="number"
+                                    :value="
+                                        carts[itemId(product.id)]?.quantity ?? 1
+                                    "
+                                    readonly
+                                />
+                                <span
+                                    @click.prevent="
+                                        update(
+                                            product,
+                                            (carts[itemId(product.id)]
+                                                ?.quantity ?? 1) + 1
+                                        )
+                                    "
+                                >
+                                    +
+                                </span>
                             </div>
+
                             <button
                                 @click="addToCart(product)"
                                 type="button"

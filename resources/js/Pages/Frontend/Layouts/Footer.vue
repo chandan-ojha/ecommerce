@@ -202,7 +202,7 @@
                                 <div class="item-content">
                                     <div class="wrap-list-item wrap-gallery">
                                         <img
-                                            src="/assets/frontend/images/payment.png"
+                                            src="/assets/frontend/images/payment_logo.png"
                                             style="max-width: 260px"
                                         />
                                     </div>

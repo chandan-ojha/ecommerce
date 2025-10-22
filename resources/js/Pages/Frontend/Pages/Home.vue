@@ -87,11 +87,11 @@ const addToCart = (product) => {
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <img
-                            src="/assets/frontend/images/slider-img.jpg"
+                            src="/assets/frontend/images/slider_image_1.png"
                             alt=""
                             class="slider-image"
                         />
-                        <div class="image-overlay">
+                        <!-- <div class="image-overlay">
                             <div class="container">
                                 <div class="content-box">
                                     <h2 data-aos="fade-up" data-aos-delay="200">
@@ -112,15 +112,15 @@ const addToCart = (product) => {
                                     </a>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="carousel-item">
                         <img
-                            src="/assets/frontend/images/slider-img.jpg"
+                            src="/assets/frontend/images/slider_image_2.png"
                             alt=""
                             class="slider-image"
                         />
-                        <div class="image-overlay">
+                        <!-- <div class="image-overlay">
                             <div class="container">
                                 <div class="content-box">
                                     <h2 data-aos="fade-up" data-aos-delay="200">
@@ -141,36 +141,14 @@ const addToCart = (product) => {
                                     </a>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="carousel-item">
                         <img
-                            src="/assets/frontend/images/slider-img.jpg"
+                            src="/assets/frontend/images/slider_image_2.png"
                             alt=""
                             class="slider-image"
                         />
-                        <div class="image-overlay">
-                            <div class="container h-100">
-                                <div class="content-box">
-                                    <h2 data-aos="fade-up" data-aos-delay="200">
-                                        Our black Friday event is here!
-                                    </h2>
-                                    <a
-                                        href="#"
-                                        class="btn-style-one btn-style-two"
-                                        data-aos="fade-up"
-                                        data-aos-delay="300"
-                                    >
-                                        <p class="slider-offer">
-                                            Grab the Offer
-                                            <span class="material-icons">
-                                                chevron_right
-                                            </span>
-                                        </p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -499,7 +477,7 @@ const addToCart = (product) => {
         <section class="banner-section">
             <div class="banner-part">
                 <div class="single-banner">
-                    <img src="/assets/frontend/images/image 20.png" alt="" />
+                    <img src="/assets/frontend/images/banner.png" alt="" />
                 </div>
             </div>
         </section>
@@ -565,7 +543,7 @@ const addToCart = (product) => {
         <section class="banner-section-two">
             <div class="banner-part">
                 <div class="single-banner">
-                    <img src="/assets/frontend/images/image 20.png" alt="" />
+                    <img src="/assets/frontend/images/banner.png" alt="" />
                 </div>
             </div>
         </section>

@@ -88,7 +88,6 @@ class Cart
     public static function getProductsAndCartItems()
     {
         $cartItems = self::getCartItems();
-
         $ids       = Arr::pluck($cartItems, 'product_id');
         $products  = Product::whereIn('id', $ids)->with('media')->get();
         $cartItems = Arr::keyBy($cartItems, 'product_id');
