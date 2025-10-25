@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\ProductManagement\ProductController;
 use App\Http\Controllers\Backend\ProductManagement\SubCategoryController;
 use App\Http\Controllers\Backend\UserManagement\UserController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\ProductPageController;
 use App\Http\Controllers\LanguageController;
@@ -62,11 +63,13 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     //Category Setup
     Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
     Route::post('/add-category', [CategoryController::class, 'store']);
+    Route::post('/update-category/{id}', [CategoryController::class, 'update']);
     Route::delete('/category/{id}', [CategoryController::class, 'destroy']);
 
     //Sub Category Setup
     Route::get('/sub-category', [SubCategoryController::class, 'index'])->name('sub.category.index');
     Route::post('/add-sub-category', [SubCategoryController::class, 'store']);
+    Route::post('/update-sub-category/{id}', [SubCategoryController::class, 'update']);
     Route::delete('/sub-category/{id}', [SubCategoryController::class, 'destroy']);
 
     //Product Setup
@@ -83,6 +86,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    //chekcout
+    Route::prefix('checkout')->controller(CheckoutController::class)->group((function () {
+        Route::get('view', 'view')->name('checkout.view');
+        Route::post('order', 'store')->name('checkout.store');
+    }));
 });
 
 require __DIR__ . '/auth.php';

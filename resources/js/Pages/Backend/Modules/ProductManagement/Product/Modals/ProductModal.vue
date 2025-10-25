@@ -26,6 +26,7 @@ const form = useForm({
     category_id: "",
     sub_category_id: "",
     title: "",
+    prod_code: "",
     quantity: "",
     price: "",
     description: "",
@@ -69,6 +70,7 @@ function populateForm(product) {
     selectedCategoryId.value = product.category_id;
     form.sub_category_id = product.sub_category_id;
     form.title = product.title;
+    form.prod_code = product.prod_code;
     form.quantity = product.quantity;
     form.price = product.price;
     form.description = product.description;
@@ -125,7 +127,7 @@ defineExpose({ show });
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
     >
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">
@@ -141,7 +143,7 @@ defineExpose({ show });
                 <div class="modal-body">
                     <form>
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-12 col-md-6">
                                 <div class="mb-3">
                                     <label
                                         for="exampleFormControlInput1"
@@ -175,7 +177,7 @@ defineExpose({ show });
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12">
+                            <div class="col-12 col-md-6">
                                 <div class="mb-3">
                                     <label
                                         for="exampleFormControlInput1"
@@ -205,7 +207,7 @@ defineExpose({ show });
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12">
+                            <div class="col-12 col-md-6">
                                 <div class="mb-3">
                                     <label
                                         for="exampleFormControlInput1"
@@ -218,13 +220,36 @@ defineExpose({ show });
                                         class="form-control"
                                         id="exampleFormControlInput1"
                                         v-model="form.title"
-                                        placeholder="Enter product"
+                                        placeholder="Enter product title"
                                     />
                                     <div
                                         v-if="form.errors.title"
                                         class="text-danger text-sm mt-1"
                                     >
                                         {{ form.errors.title }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="mb-3">
+                                    <label
+                                        for="exampleFormControlInput1"
+                                        class="form-label"
+                                    >
+                                        Product Code
+                                    </label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="exampleFormControlInput1"
+                                        v-model="form.prod_code"
+                                        placeholder="Enter product code"
+                                    />
+                                    <div
+                                        v-if="form.errors.prod_code"
+                                        class="text-danger text-sm mt-1"
+                                    >
+                                        {{ form.errors.prod_code }}
                                     </div>
                                 </div>
                             </div>
@@ -241,7 +266,7 @@ defineExpose({ show });
                                         class="form-control"
                                         id="exampleFormControlInput1"
                                         v-model="form.quantity"
-                                        placeholder=""
+                                        placeholder="Enter quantity"
                                     />
                                 </div>
                             </div>
@@ -258,12 +283,12 @@ defineExpose({ show });
                                         class="form-control"
                                         id="exampleFormControlInput1"
                                         v-model="form.price"
-                                        placeholder=""
+                                        placeholder="Enter price"
                                     />
                                 </div>
                             </div>
 
-                            <div class="col-12 col-md-12">
+                            <div class="col-12 col-md-6">
                                 <div class="mb-3">
                                     <label for="formFile" class="form-label">
                                         Upload Product Image
@@ -280,7 +305,7 @@ defineExpose({ show });
                                     />
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12">
+                            <div class="col-12 col-md-6">
                                 <div class="mb-3">
                                     <label
                                         for="exampleFormControlTextarea1"
@@ -291,7 +316,7 @@ defineExpose({ show });
                                     <textarea
                                         class="form-control"
                                         id="exampleFormControlTextarea1"
-                                        rows="3"
+                                        rows="2"
                                         v-model="form.description"
                                         placeholder="Write description here.."
                                     ></textarea>

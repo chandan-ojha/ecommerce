@@ -3,7 +3,7 @@ import { ref, computed } from "vue";
 import AdminLayout from "@/Pages/Backend/Layouts/AdminLayout.vue";
 import { Head, usePage, router } from "@inertiajs/vue3";
 import { Modal } from "bootstrap";
-import AddSubCategory from "./Modals/AddSubCategory.vue";
+import SubCategoryModal from "./Modals/SubCategoryModal.vue";
 import FeedbackModal from "@/Pages/Backend/Components/FeedbackModal.vue";
 import ConfirmModal from "@/Pages/Backend/Components/ConfirmModal.vue";
 import Pagination from "@/Pages/Backend/Components/Pagination.vue";
@@ -28,6 +28,7 @@ const page = usePage();
 const subCategoryList = computed(() => props.sub_categories.data ?? []);
 const feedbackModal = ref(null);
 const confirmModal = ref(null);
+const subCategoryModal = ref(null);
 
 /**
  * Sub Category Delete
@@ -53,6 +54,16 @@ function deleteSubCategory(id) {
         },
     });
 }
+
+/** Open Add Modal */
+function addSubCategory() {
+    subCategoryModal.value.show();
+}
+
+/** Open Edit Modal */
+function editSubCategory(subCategory) {
+    subCategoryModal.value.show(subCategory);
+}
 </script>
 
 <template>
@@ -63,8 +74,7 @@ function deleteSubCategory(id) {
                 <h3 class="title">Sub Category List</h3>
                 <button
                     class="btn btn_primary d-flex align-items-center"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addSubCategoryModal"
+                    @click="addSubCategory"
                 >
                     <span class="material-icons add_icon">add</span>
                     Add Sub Category
@@ -152,8 +162,10 @@ function deleteSubCategory(id) {
                                             <span
                                                 class="material-icons icon text-warning"
                                                 title="Edit"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#add_product_modal"
+                                                role="button"
+                                                @click="
+                                                    editSubCategory(subCategory)
+                                                "
                                             >
                                                 drive_file_rename_outline
                                             </span>
@@ -189,8 +201,12 @@ function deleteSubCategory(id) {
                 </div>
             </div>
         </div>
-        <!-- ===== Add Sub Category Modal -->
-        <AddSubCategory :errors="props.errors" :categories="props.categories" />
+        <!-- ===== Sub Category Modal (Add/Edit)  -->
+        <SubCategoryModal
+            ref="subCategoryModal"
+            :errors="props.errors"
+            :categories="props.categories"
+        />
         <!-- Feedback Modal -->
         <FeedbackModal ref="feedbackModal" />
         <!-- Confirm Modal -->

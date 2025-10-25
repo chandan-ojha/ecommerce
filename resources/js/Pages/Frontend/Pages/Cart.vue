@@ -133,10 +133,13 @@ const remove = (product) => router.delete(route("cart.delete", product));
                                     placeholder="Enter Code"
                                 />
                             </div> -->
-                            <button class="btn-checkout w-100 mb-2">
+                            <button
+                                @click="$inertia.visit(route('checkout.view'))"
+                                type="button"
+                                class="btn-checkout w-100 mb-2"
+                            >
                                 Checkout Now
                             </button>
-
                             <Link :href="route('products')" class="Continue">
                                 Continue Shopping
                             </Link>

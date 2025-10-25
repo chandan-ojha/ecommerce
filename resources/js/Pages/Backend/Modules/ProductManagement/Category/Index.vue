@@ -3,7 +3,7 @@ import { ref, computed } from "vue";
 import AdminLayout from "@/Pages/Backend/Layouts/AdminLayout.vue";
 import { Head, usePage, router } from "@inertiajs/vue3";
 import { Modal } from "bootstrap";
-import AddCategory from "./Modals/AddCategory.vue";
+import CategoryModal from "./Modals/CategoryModal.vue";
 import FeedbackModal from "@/Pages/Backend/Components/FeedbackModal.vue";
 import ConfirmModal from "@/Pages/Backend/Components/ConfirmModal.vue";
 import Pagination from "@/Pages/Backend/Components/Pagination.vue";
@@ -24,6 +24,7 @@ const page = usePage();
 const categoryList = computed(() => props.categories.data ?? []);
 const feedbackModal = ref(null);
 const confirmModal = ref(null);
+const categoryModal = ref(null);
 
 /**
  * Category Delete
@@ -49,6 +50,16 @@ function deleteCategory(id) {
         },
     });
 }
+
+/** Open Add Modal */
+function addCategory() {
+    categoryModal.value.show();
+}
+
+/** Open Edit Modal */
+function editCategory(product) {
+    categoryModal.value.show(product);
+}
 </script>
 
 <template>
@@ -59,8 +70,7 @@ function deleteCategory(id) {
                 <h3 class="title">Category List</h3>
                 <button
                     class="btn btn_primary d-flex align-items-center"
-                    data-bs-toggle="modal"
-                    data-bs-target="#add_category_modal"
+                    @click="addCategory"
                 >
                     <span class="material-icons add_icon">add</span>
                     Add Category
@@ -142,8 +152,8 @@ function deleteCategory(id) {
                                             <span
                                                 class="material-icons icon text-warning"
                                                 title="Edit"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#add_product_modal"
+                                                role="button"
+                                                @click="editCategory(category)"
                                             >
                                                 drive_file_rename_outline
                                             </span>
@@ -177,8 +187,8 @@ function deleteCategory(id) {
                 </div>
             </div>
         </div>
-        <!-- ===== Add Category Modal -->
-        <AddCategory :errors="props.errors" />
+        <!-- ===== Category Modal (Add/Edit) -->
+        <CategoryModal ref="categoryModal" :errors="props.errors" />
         <!-- Feedback Modal -->
         <FeedbackModal ref="feedbackModal" />
         <!-- Confirm Modal -->
