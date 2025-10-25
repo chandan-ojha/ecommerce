@@ -107,7 +107,8 @@ function editProduct(product) {
                             <thead>
                                 <tr>
                                     <th>Image</th>
-                                    <th>Title</th>
+                                    <th>Product Name</th>
+                                    <th>Product Code</th>
                                     <th>Category</th>
                                     <th>Sub Category</th>
                                     <th>Quantity</th>
@@ -130,6 +131,7 @@ function editProduct(product) {
                                         <span v-else>N/A</span>
                                     </td>
                                     <td>{{ product.title }}</td>
+                                    <td>{{ product.prod_code }}</td>
                                     <td>
                                         {{ product.category?.title || "N/A" }}
                                     </td>
