@@ -61,4 +61,9 @@ class User extends Authenticatable
     {
         return $this->roles()->where('name', $role)->exists();
     }
+
+    public function user_address()
+    {
+        return $this->hasMany(UserAddress::class);
+    }
 }

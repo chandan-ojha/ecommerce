@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CartResource;
 use App\Models\CartItem;
 use App\Models\Product;
+use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -16,12 +17,14 @@ class CartController extends Controller
         $user = $request->user();
 
         if ($user) {
-            $cartItems = CartItem::where('user_id', $user->id)->get();
+            $cartItems   = CartItem::where('user_id', $user->id)->get();
+            $userAddress = UserAddress::where('user_id', $user->id)->first();
 
             if ($cartItems->count() > 0) {
                 return Inertia::render('Frontend/Pages/Cart', [
-                    'title'     => 'Cart',
-                    'cartItems' => $cartItems,
+                    'title'       => 'Cart',
+                    'cartItems'   => $cartItems,
+                    'userAddress' => $userAddress,
                 ]);
             }
 
