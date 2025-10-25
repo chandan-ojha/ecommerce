@@ -55,7 +55,7 @@ class SubCategoryController extends Controller
 
             // Handle media upload if present
             if ($request->hasFile('media')) {
-                $media   = uploadMedia($request->file('media'), directory: 'uploads/categories');
+                $media   = uploadMedia($request->file('media'), directory: 'uploads/sub_categories');
                 $mediaId = $media->id;
             }
 
@@ -74,6 +74,54 @@ class SubCategoryController extends Controller
             DB::rollBack();
 
             return redirect()->back()->with('error', 'Failed to create Sub Category: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Update an existing SubCategory.
+     */
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'category_id' => 'required',
+            'title'       => 'required',
+        ], [
+            'category_id.required' => 'Select a category.',
+        ]
+        );
+
+        try {
+            DB::beginTransaction();
+
+            $subCategory = SubCategory::findOrFail($id);
+
+            $mediaId = $subCategory->media_id;
+
+            // Handle media upload if present
+            if ($request->hasFile('media')) {
+                if ($mediaId) {
+                    deleteMedia($mediaId);
+                }
+                // Upload new media
+                $media   = uploadMedia($request->file('media'), directory: 'uploads/sub_categories');
+                $mediaId = $media->id;
+            }
+
+            $subCategory->update([
+                'category_id' => $request->category_id,
+                'title'       => $request->title,
+                'media_id'    => $mediaId,
+            ]);
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Sub Category updated successfully!');
+
+        } catch (Exception $e) {
+
+            DB::rollBack();
+
+            return redirect()->back()->with('error', 'Failed to update Sub Category: ' . $e->getMessage());
         }
     }
 
@@ -97,4 +145,5 @@ class SubCategoryController extends Controller
             return redirect()->back()->with('error', 'Failed to delete Sub Category: ' . $e->getMessage());
         }
     }
+
 }

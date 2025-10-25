@@ -69,6 +69,51 @@ class CategoryController extends Controller
     }
 
     /**
+     * Update an existing Category.
+     */
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'title'       => 'required',
+            'description' => 'nullable',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $category = Category::findOrFail($id);
+
+            $mediaId = $category->media_id;
+
+            // Handle media upload if present
+            if ($request->hasFile('media')) {
+                if ($mediaId) {
+                    deleteMedia($mediaId);
+                }
+                // Upload new media
+                $media   = uploadMedia($request->file('media'), directory: 'uploads/categories');
+                $mediaId = $media->id;
+            }
+
+            $category->update([
+                'title'       => $request->title,
+                'description' => $request->description,
+                'media_id'    => $mediaId,
+            ]);
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Category updated successfully!');
+
+        } catch (Exception $e) {
+
+            DB::rollBack();
+
+            return redirect()->back()->with('error', 'Failed to update Category: ' . $e->getMessage());
+        }
+    }
+
+    /**
      * Delete a Category.
      */
     public function destroy($id)
@@ -88,4 +133,5 @@ class CategoryController extends Controller
             return redirect()->back()->with('error', 'Failed to delete Category: ' . $e->getMessage());
         }
     }
+
 }
