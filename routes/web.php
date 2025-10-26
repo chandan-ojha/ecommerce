@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\ProductManagement\CategoryController;
 use App\Http\Controllers\Backend\ProductManagement\ProductController;
 use App\Http\Controllers\Backend\ProductManagement\SubCategoryController;
+use App\Http\Controllers\Backend\SaleManagement\OrderController;
 use App\Http\Controllers\Backend\UserManagement\UserController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
@@ -78,6 +79,9 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::post('/add-product', [ProductController::class, 'store']);
     Route::post('/update-product/{id}', [ProductController::class, 'update']);
     Route::delete('/product/{id}', [ProductController::class, 'destroy']);
+
+    //Order Manage
+    Route::get('/order', [OrderController::class, 'index'])->name('order.index');
 
     Route::get('change', [LanguageController::class, 'change'])->name('lang.change');
 

@@ -6,6 +6,8 @@ return [
     'category'         => 'Category',
     'subcategory'      => 'Sub Category',
     'product_list'     => 'Product List',
+    'sale'             => 'Sale',
+    'order_list'       => 'Order List',
     'reports'          => 'Reports',
     'settings'         => 'Settings',
     'general_settings' => 'General Settings',

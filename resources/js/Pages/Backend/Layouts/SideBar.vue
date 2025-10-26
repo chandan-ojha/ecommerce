@@ -83,6 +83,42 @@ const label = page.props.sidebarTranslations;
                         </div>
                     </div>
                 </div>
+                <!-- Sale -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button
+                            class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseThree"
+                            aria-expanded="false"
+                            aria-controls="collapseThree"
+                        >
+                            <div class="icon">
+                                <span class="material-icons">sell</span>
+                            </div>
+                            <div class="text">{{ label.sale }}</div>
+                        </button>
+                    </h2>
+                    <div
+                        id="collapseThree"
+                        class="accordion-collapse collapse"
+                        data-bs-parent="#accordionExample"
+                    >
+                        <div class="accordion-body p-0">
+                            <ul class="second_label_menu">
+                                <li>
+                                    <Link
+                                        :href="route('admin.order.index')"
+                                        class="nav-link"
+                                    >
+                                        {{ label.order_list }}
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
                 <!-- Reports -->
                 <div class="accordion-item">
                     <h2 class="accordion-header">

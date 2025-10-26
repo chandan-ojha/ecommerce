@@ -6,6 +6,8 @@ return [
     'category'         => 'ক্যাটেগরি',
     'subcategory'      => 'সাব ক্যাটেগরি',
     'product_list'     => 'পণ্যের তালিকা',
+    'sale'             => 'বিক্রয়',
+    'order_list'       => 'অর্ডার তালিকা',
     'reports'          => 'রিপোর্ট',
     'settings'         => 'সেটিংস',
     'general_settings' => 'সাধারণ সেটিংস',
