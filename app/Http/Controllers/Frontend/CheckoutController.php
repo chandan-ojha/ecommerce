@@ -49,7 +49,7 @@ class CheckoutController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function placeOrder(Request $request)
     {
         $user        = $request->user();
         $carts       = $request->carts ?? [];
@@ -113,13 +113,7 @@ class CheckoutController extends Controller
 
             DB::commit();
 
-            return response()->json([
-                'success'  => true,
-                'message'  => 'Order placed successfully',
-                'order_no' => $order->order_no,
-            ]);
-
-            // return redirect()->route('checkout.view')->with('success', 'Order placed successfully!');
+            return redirect()->route('thankyou.view');
 
         } catch (Exception $e) {
             DB::rollBack();
