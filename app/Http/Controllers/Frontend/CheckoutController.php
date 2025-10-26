@@ -49,7 +49,7 @@ class CheckoutController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function placeOrder(Request $request)
     {
         $user        = $request->user();
         $carts       = $request->carts ?? [];
@@ -72,14 +72,26 @@ class CheckoutController extends Controller
 
             $currentAddress = $user->user_address()->first();
 
-            $address = UserAddress::create([
-                'phone'   => $addressInfo['phone'],
-                'region'  => $addressInfo['region'],
-                'city'    => $addressInfo['city'],
-                'area'    => $addressInfo['area'],
-                'address' => $addressInfo['address'],
-                'user_id' => $user->id,
-            ]);
+            if ($currentAddress) {
+                $currentAddress->update([
+                    'phone'   => $addressInfo['phone'],
+                    'region'  => $addressInfo['region'],
+                    'city'    => $addressInfo['city'],
+                    'area'    => $addressInfo['area'],
+                    'address' => $addressInfo['address'],
+                ]);
+
+                $address = $currentAddress;
+            } else {
+                $address = UserAddress::create([
+                    'phone'   => $addressInfo['phone'],
+                    'region'  => $addressInfo['region'],
+                    'city'    => $addressInfo['city'],
+                    'area'    => $addressInfo['area'],
+                    'address' => $addressInfo['address'],
+                    'user_id' => $user->id,
+                ]);
+            }
 
             $order = Order::create([
                 'order_no'        => 'ORD-' . strtoupper(uniqid()),
@@ -113,13 +125,7 @@ class CheckoutController extends Controller
 
             DB::commit();
 
-            return response()->json([
-                'success'  => true,
-                'message'  => 'Order placed successfully',
-                'order_no' => $order->order_no,
-            ]);
-
-            // return redirect()->route('checkout.view')->with('success', 'Order placed successfully!');
+            return redirect()->route('thankyou.view');
 
         } catch (Exception $e) {
             DB::rollBack();

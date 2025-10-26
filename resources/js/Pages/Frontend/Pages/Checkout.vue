@@ -26,18 +26,21 @@ const form = useForm({
  * Confirm order
  */
 function confirmOrder() {
-    router.visit(route("checkout.store"), {
-        method: "post",
-        data: {
+    router.post(
+        "/place-order",
+        {
             carts: carts.value,
             products: products.value,
             total: total.value,
-            address_info: form,
+            address_info: form.data(),
         },
-        onSuccess: () => {
-            form.reset();
-        },
-    });
+        {
+            onSuccess: () => {
+                form.reset();
+                router.reload();
+            },
+        }
+    );
 }
 </script>
 

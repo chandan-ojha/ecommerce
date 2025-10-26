@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\ProductManagement\CategoryController;
 use App\Http\Controllers\Backend\ProductManagement\ProductController;
 use App\Http\Controllers\Backend\ProductManagement\SubCategoryController;
+use App\Http\Controllers\Backend\SaleManagement\OrderController;
 use App\Http\Controllers\Backend\UserManagement\UserController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\Frontend\ProductPageController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 //This route is used to clear the cache, view, config, and route cache
 Route::get('/optimized', [AppOptimizationController::class, 'optimize']);
@@ -78,6 +80,9 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::post('/update-product/{id}', [ProductController::class, 'update']);
     Route::delete('/product/{id}', [ProductController::class, 'destroy']);
 
+    //Order Manage
+    Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+
     Route::get('change', [LanguageController::class, 'change'])->name('lang.change');
 
 });
@@ -87,11 +92,15 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    //chekcout
-    Route::prefix('checkout')->controller(CheckoutController::class)->group((function () {
-        Route::get('view', 'view')->name('checkout.view');
-        Route::post('order', 'store')->name('checkout.store');
-    }));
+    Route::get('/checkout', [CheckoutController::class, 'view'])->name('checkout.view');
+    Route::post('/place-order', [CheckoutController::class, 'placeOrder']);
+
+    Route::get('/thank-you', function () {
+        return Inertia::render('Frontend/Pages/ThankYou', [
+            'title' => 'Thank You',
+        ]);
+    })->name('thankyou.view');
+
 });
 
 require __DIR__ . '/auth.php';
