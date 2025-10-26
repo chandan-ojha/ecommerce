@@ -72,14 +72,26 @@ class CheckoutController extends Controller
 
             $currentAddress = $user->user_address()->first();
 
-            $address = UserAddress::create([
-                'phone'   => $addressInfo['phone'],
-                'region'  => $addressInfo['region'],
-                'city'    => $addressInfo['city'],
-                'area'    => $addressInfo['area'],
-                'address' => $addressInfo['address'],
-                'user_id' => $user->id,
-            ]);
+            if ($currentAddress) {
+                $currentAddress->update([
+                    'phone'   => $addressInfo['phone'],
+                    'region'  => $addressInfo['region'],
+                    'city'    => $addressInfo['city'],
+                    'area'    => $addressInfo['area'],
+                    'address' => $addressInfo['address'],
+                ]);
+
+                $address = $currentAddress;
+            } else {
+                $address = UserAddress::create([
+                    'phone'   => $addressInfo['phone'],
+                    'region'  => $addressInfo['region'],
+                    'city'    => $addressInfo['city'],
+                    'area'    => $addressInfo['area'],
+                    'address' => $addressInfo['address'],
+                    'user_id' => $user->id,
+                ]);
+            }
 
             $order = Order::create([
                 'order_no'        => 'ORD-' . strtoupper(uniqid()),
