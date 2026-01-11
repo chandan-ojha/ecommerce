@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { useForm, usePage } from "@inertiajs/vue3";
 import { Modal } from "bootstrap";
 import FeedbackModal from "@/Pages/Backend/Components/FeedbackModal.vue";
@@ -19,6 +19,7 @@ const page = usePage();
 const feedbackModal = ref(null);
 const fileInputRef = ref(null);
 let modalInstance = null;
+const isSellingPriceEdited = ref(false);
 
 // Reactive Form
 const form = useForm({
@@ -28,7 +29,12 @@ const form = useForm({
     title: "",
     prod_code: "",
     quantity: "",
-    price: "",
+    purchase_price: "",
+    tp_vat: "",
+    product_cost: "",
+    total_cost: "",
+    revenue: "",
+    selling_price: "",
     description: "",
     media: null, // file input
 });
@@ -63,6 +69,29 @@ function show(product = null) {
     modalInstance.show();
 }
 
+// -------------------------------------------
+// Auto-calculate product_cost, total_cost, selling_price
+// -------------------------------------------
+watch(
+    () => [form.purchase_price, form.tp_vat, form.quantity, form.revenue],
+    () => {
+        const purchase = Number(form.purchase_price) || 0;
+        const vat = Number(form.tp_vat) || 0;
+        const qty = Number(form.quantity) || 1;
+        const revenue = Number(form.revenue) || 0;
+
+        const productCost = purchase * (1 + vat / 100);
+        form.product_cost = productCost.toFixed(2);
+
+        form.total_cost = (productCost * qty).toFixed(2);
+
+        if (!isSellingPriceEdited.value) {
+            const selling = purchase * (1 + vat / 100 + revenue / 100);
+            form.selling_price = selling.toFixed(2);
+        }
+    }
+);
+
 // Populate form for editing
 function populateForm(product) {
     form.id = product.id;
@@ -72,7 +101,12 @@ function populateForm(product) {
     form.title = product.title;
     form.prod_code = product.prod_code;
     form.quantity = product.quantity;
-    form.price = product.price;
+    form.purchase_price = product.purchase_price;
+    form.tp_vat = product.tp_vat;
+    form.product_cost = product.product_cost;
+    form.total_cost = product.total_cost;
+    form.revenue = product.revenue;
+    form.selling_price = product.selling_price;
     form.description = product.description;
     form.media = null;
 }
@@ -143,7 +177,7 @@ defineExpose({ show });
                 <div class="modal-body">
                     <form>
                         <div class="row">
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-4">
                                 <div class="mb-3">
                                     <label
                                         for="exampleFormControlInput1"
@@ -177,7 +211,7 @@ defineExpose({ show });
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-4">
                                 <div class="mb-3">
                                     <label
                                         for="exampleFormControlInput1"
@@ -207,7 +241,7 @@ defineExpose({ show });
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-4">
                                 <div class="mb-3">
                                     <label
                                         for="exampleFormControlInput1"
@@ -230,7 +264,7 @@ defineExpose({ show });
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-4">
                                 <div class="mb-3">
                                     <label
                                         for="exampleFormControlInput1"
@@ -253,7 +287,7 @@ defineExpose({ show });
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-4">
                                 <div class="mb-3">
                                     <label
                                         for="exampleFormControlInput1"
@@ -270,24 +304,78 @@ defineExpose({ show });
                                     />
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-4">
                                 <div class="mb-3">
                                     <label
                                         for="exampleFormControlInput1"
                                         class="form-label"
                                     >
-                                        Price
+                                        Purchase Price
                                     </label>
                                     <input
                                         type="number"
                                         class="form-control"
                                         id="exampleFormControlInput1"
-                                        v-model="form.price"
+                                        v-model="form.purchase_price"
                                         placeholder="Enter price"
                                     />
                                 </div>
                             </div>
 
+                            <div class="col-12 col-md-4">
+                                <div class="mb-3">
+                                    <label
+                                        for="exampleFormControlInput1"
+                                        class="form-label"
+                                    >
+                                        TP+VAT (%)
+                                    </label>
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="exampleFormControlInput1"
+                                        v-model="form.tp_vat"
+                                        placeholder="Enter TP+VAT"
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <div class="mb-3">
+                                    <label
+                                        for="exampleFormControlInput1"
+                                        class="form-label"
+                                    >
+                                        Revenue (%)
+                                    </label>
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="exampleFormControlInput1"
+                                        v-model="form.revenue"
+                                        placeholder="Enter Revenue"
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <div class="mb-3">
+                                    <label
+                                        for="exampleFormControlInput1"
+                                        class="form-label"
+                                    >
+                                        Selling Price
+                                    </label>
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="exampleFormControlInput1"
+                                        v-model="form.selling_price"
+                                        placeholder="Enter price"
+                                        @input="isSellingPriceEdited = true"
+                                    />
+                                </div>
+                            </div>
                             <div class="col-12 col-md-6">
                                 <div class="mb-3">
                                     <label for="formFile" class="form-label">

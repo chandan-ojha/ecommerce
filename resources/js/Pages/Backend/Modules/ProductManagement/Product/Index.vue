@@ -110,9 +110,14 @@ function editProduct(product) {
                                     <th>Product Name</th>
                                     <th>Product Code</th>
                                     <th>Category</th>
-                                    <th>Sub Category</th>
+                                    <!-- <th>Sub Category</th> -->
                                     <th>Quantity</th>
-                                    <th>Price</th>
+                                    <th>Purchase Price</th>
+                                    <th>TP+VAT %</th>
+                                    <th>Product Cost</th>
+                                    <th>Total Cost</th>
+                                    <th>Revenue %</th>
+                                    <th>Selling Price</th>
                                     <th class="text-end pe-4">Actions</th>
                                 </tr>
                             </thead>
@@ -135,13 +140,18 @@ function editProduct(product) {
                                     <td>
                                         {{ product.category?.title || "N/A" }}
                                     </td>
-                                    <td>
+                                    <!-- <td>
                                         {{
                                             product.sub_category?.title || "N/A"
                                         }}
-                                    </td>
+                                    </td> -->
                                     <td>{{ product.quantity }}</td>
-                                    <td>{{ product.price }}</td>
+                                    <td>{{ product.purchase_price }}</td>
+                                    <td>{{ product.tp_vat }}</td>
+                                    <td>{{ product.product_cost }}</td>
+                                    <td>{{ product.total_cost }}</td>
+                                    <td>{{ product.revenue }}</td>
+                                    <td>{{ product.selling_price }}</td>
                                     <td>
                                         <div
                                             class="d-flex align-items-center gap-1 justify-content-end"

@@ -2,6 +2,7 @@
 import { ref, computed } from "vue";
 import FrontendLayout from "@/Pages/Frontend/Layouts/FrontendLayout.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
+import { flashMessage } from "@/utils/alert.js";
 
 const props = defineProps({
     title: String,
@@ -31,9 +32,24 @@ const addToCart = (product) => {
                 .querySelector('meta[name="csrf-token"]')
                 ?.getAttribute("content"),
         },
-    }).then(() => {
-        router.reload({ only: ["cart"] });
-    });
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            if (data.success) {
+                flashMessage({
+                    type: "success",
+                    message: data.message,
+                });
+            }
+
+            router.reload({ only: ["cart"] });
+        })
+        .catch(() => {
+            flashMessage({
+                type: "error",
+                message: "Something went wrong!",
+            });
+        });
 };
 </script>
 
@@ -44,7 +60,7 @@ const addToCart = (product) => {
             <div class="product-part">
                 <div class="product-banner">
                     <img
-                        src="/assets/frontend/images/producti-img.jpg"
+                        src="/assets/frontend/images/product_page_top.png"
                         alt=""
                     />
                 </div>
@@ -550,7 +566,10 @@ const addToCart = (product) => {
                                         class="vat d-flex align-items-center gap-2"
                                     >
                                         <span class="fw-bold"
-                                            >৳ {{ product?.price ?? "" }}</span
+                                            >৳
+                                            {{
+                                                product?.selling_price ?? ""
+                                            }}</span
                                         >
                                     </p>
                                     <button

@@ -49,7 +49,12 @@ class ProductController extends Controller
             'title'           => 'required',
             'prod_code'       => 'nullable',
             'quantity'        => 'nullable|integer|min:0',
-            'price'           => 'required|numeric|min:0',
+            'purchase_price'  => 'required',
+            'tp_vat'          => 'nullable',
+            'product_cost'    => 'nullable',
+            'total_cost'      => 'nullable',
+            'revenue'         => 'nullable',
+            'selling_price'   => 'required',
             'description'     => 'nullable',
             'media_id'        => 'nullable|integer',
         ], [
@@ -69,13 +74,26 @@ class ProductController extends Controller
                 $mediaId = $media->id;
             }
 
+            // Auto-calculated fields
+            // $purchasePrice = $request->purchase_price;
+            // $tp_vat        = $request->tp_vat ?? 0;
+            // $productCost   = $purchasePrice + ($purchasePrice * ($tp_vat / 100));
+            // $totalCost     = $productCost * ($request->quantity ?? 1);
+            // $revenue       = $request->revenue ?? 0;
+            // $sellingPrice  = $productCost + ($productCost * ($revenue / 100));
+
             Product::create([
                 'category_id'     => $request->category_id,
                 'sub_category_id' => $request->sub_category_id,
                 'title'           => $request->title,
                 'prod_code'       => $request->prod_code,
                 'quantity'        => $request->quantity ?? 0,
-                'price'           => $request->price,
+                'purchase_price'  => $request->purchase_price,
+                'tp_vat'          => $request->tp_vat ?? 0,
+                'product_cost'    => $request->product_cost ?? 0,
+                'total_cost'      => $request->total_cost ?? 0,
+                'revenue'         => $request->revenue ?? 0,
+                'selling_price'   => $request->selling_price,
                 'description'     => $request->description,
                 'media_id'        => $mediaId,
             ]);
@@ -103,7 +121,12 @@ class ProductController extends Controller
             'title'           => 'required',
             'prod_code'       => 'nullable',
             'quantity'        => 'nullable|integer|min:0',
-            'price'           => 'required|numeric|min:0',
+            'purchase_price'  => 'required',
+            'tp_vat'          => 'nullable',
+            'product_cost'    => 'nullable',
+            'total_cost'      => 'nullable',
+            'revenue'         => 'nullable',
+            'selling_price'   => 'required',
             'description'     => 'nullable',
             'media_id'        => 'nullable|integer',
         ], [
@@ -134,7 +157,12 @@ class ProductController extends Controller
                 'title'           => $request->title,
                 'prod_code'       => $request->prod_code,
                 'quantity'        => $request->quantity ?? 0,
-                'price'           => $request->price,
+                'purchase_price'  => $request->purchase_price,
+                'tp_vat'          => $request->tp_vat ?? 0,
+                'product_cost'    => $request->product_cost ?? 0,
+                'total_cost'      => $request->total_cost ?? 0,
+                'revenue'         => $request->revenue ?? 0,
+                'selling_price'   => $request->selling_price,
                 'description'     => $request->description,
                 'media_id'        => $mediaId,
             ]);

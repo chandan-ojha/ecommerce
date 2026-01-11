@@ -18,7 +18,12 @@ return new class extends Migration
             $table->string('title');
             $table->string('prod_code')->nullable();
             $table->integer('quantity')->default(0);
-            $table->decimal('price', 10, 2);
+            $table->decimal('purchase_price', 10, 2);
+            $table->integer('tp_vat')->default(0);
+            $table->decimal('product_cost', 10, 2);
+            $table->decimal('total_cost', 10, 2);
+            $table->integer('revenue')->default(0);
+            $table->decimal('selling_price', 10, 2);
             $table->text('description')->nullable();
             $table->foreignId('media_id')->nullable()->constrained('media')->nullOnDelete();
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();

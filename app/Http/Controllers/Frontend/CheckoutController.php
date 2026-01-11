@@ -61,7 +61,7 @@ class CheckoutController extends Controller
         foreach ($carts as $cartItem) {
             foreach ($products as $product) {
                 if ($cartItem["product_id"] == $product["id"]) {
-                    $mergedData[] = array_merge($cartItem, ["title" => $product["title"], 'price' => $product['price']]);
+                    $mergedData[] = array_merge($cartItem, ["title" => $product["title"], 'selling_price' => $product['selling_price']]);
                 }
             }
         }
@@ -97,7 +97,8 @@ class CheckoutController extends Controller
                 'order_no'        => 'ORD-' . strtoupper(uniqid()),
                 'total_price'     => $request->total,
                 'payment_mode'    => 'cod',
-                'order_status'    => 'unpaid',
+                'payment_status'  => 'unpaid',
+                'order_status'    => 'pending',
                 'created_by'      => $user->id,
                 'user_address_id' => $address->id,
             ]);
@@ -109,7 +110,7 @@ class CheckoutController extends Controller
                     'order_id'   => $order->id,
                     'product_id' => $cartItem->product_id,
                     'quantity'   => $cartItem->quantity,
-                    'unit_price' => $cartItem->product->price,
+                    'unit_price' => $cartItem->product->selling_price,
                 ]);
 
                 $cartItem->delete();

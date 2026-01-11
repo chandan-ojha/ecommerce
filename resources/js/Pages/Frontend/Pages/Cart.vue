@@ -63,11 +63,18 @@ const remove = (product) => router.delete(route("cart.delete", product));
                                         </button>
                                         <input
                                             type="number"
-                                            v-model="
+                                            v-model.number="
                                                 carts[itemId(product.id)]
                                                     .quantity
                                             "
-                                            readonly
+                                            min="1"
+                                            @change="
+                                                update(
+                                                    product,
+                                                    carts[itemId(product.id)]
+                                                        .quantity
+                                                )
+                                            "
                                         />
                                         <button
                                             @click.prevent="
@@ -96,7 +103,7 @@ const remove = (product) => router.delete(route("cart.delete", product));
                             </button>
                             <div class="price-box">
                                 <span class="new-price"
-                                    >৳ {{ product?.price ?? "" }}</span
+                                    >৳ {{ product?.selling_price ?? "" }}</span
                                 >
                             </div>
                         </div>

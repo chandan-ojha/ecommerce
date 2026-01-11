@@ -2,6 +2,7 @@
 import { ref, computed } from "vue";
 import FrontendLayout from "@/Pages/Frontend/Layouts/FrontendLayout.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
+import { flashMessage } from "@/utils/alert.js";
 
 const props = defineProps({
     title: String,
@@ -47,9 +48,24 @@ const addToCart = (product) => {
                 .querySelector('meta[name="csrf-token"]')
                 ?.getAttribute("content"),
         },
-    }).then(() => {
-        router.reload({ only: ["cart"] });
-    });
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            if (data.success) {
+                flashMessage({
+                    type: "success",
+                    message: data.message,
+                });
+            }
+
+            router.reload({ only: ["cart"] });
+        })
+        .catch(() => {
+            flashMessage({
+                type: "error",
+                message: "Something went wrong!",
+            });
+        });
 };
 </script>
 
@@ -145,7 +161,7 @@ const addToCart = (product) => {
                     </div>
                     <div class="carousel-item">
                         <img
-                            src="/assets/frontend/images/slider_image_2.png"
+                            src="/assets/frontend/images/slider_image_3.png"
                             alt=""
                             class="slider-image"
                         />
@@ -268,7 +284,8 @@ const addToCart = (product) => {
                                                 <span class="fw-bold"
                                                     >৳
                                                     {{
-                                                        product?.price ?? ""
+                                                        product?.selling_price ??
+                                                        ""
                                                     }}</span
                                                 >
                                             </p>
@@ -477,7 +494,7 @@ const addToCart = (product) => {
         <section class="banner-section">
             <div class="banner-part">
                 <div class="single-banner">
-                    <img src="/assets/frontend/images/banner.png" alt="" />
+                    <img src="/assets/frontend/images/banner_1.png" alt="" />
                 </div>
             </div>
         </section>
@@ -521,7 +538,7 @@ const addToCart = (product) => {
                             </p>
                             <p class="vat d-flex align-items-center gap-2">
                                 <span class="fw-bold">
-                                    <p>৳ {{ product?.price ?? "" }}</p>
+                                    <p>৳ {{ product?.selling_price ?? "" }}</p>
                                 </span>
                             </p>
                             <button
@@ -543,7 +560,7 @@ const addToCart = (product) => {
         <section class="banner-section-two">
             <div class="banner-part">
                 <div class="single-banner">
-                    <img src="/assets/frontend/images/banner.png" alt="" />
+                    <img src="/assets/frontend/images/banner_2.png" alt="" />
                 </div>
             </div>
         </section>

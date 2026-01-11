@@ -53,12 +53,12 @@ class CartController extends Controller
         if ($user) {
             $cartItem = CartItem::where(['user_id' => $user->id, 'product_id' => $product->id])->first();
             if ($cartItem) {
-                $cartItem->increment('quantity');
+                $cartItem->increment('quantity', $quantity);
             } else {
                 CartItem::create([
                     'user_id'    => $user->id,
                     'product_id' => $product->id,
-                    'quantity'   => 1,
+                    'quantity'   => $quantity,
                 ]);
             }
         } else {
@@ -74,16 +74,20 @@ class CartController extends Controller
 
             if (! $isProductExists) {
                 $cartItems[] = [
-                    'user_id'    => null,
-                    'product_id' => $product->id,
-                    'quantity'   => $quantity,
-                    'price'      => $product->price,
+                    'user_id'       => null,
+                    'product_id'    => $product->id,
+                    'quantity'      => $quantity,
+                    'selling_price' => $product->selling_price,
                 ];
             }
             Cart::setCookieCartItems($cartItems);
         }
 
-        return redirect()->back()->with('success', 'cart added successfully');
+        // return redirect()->back()->with('success', 'cart added successfully');
+        return response()->json([
+            'success' => true,
+            'message' => 'Item added',
+        ]);
     }
 
     public function update(Request $request, Product $product)

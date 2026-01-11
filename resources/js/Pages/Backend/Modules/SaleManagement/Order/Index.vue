@@ -1,11 +1,12 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, onMounted, computed } from "vue";
 import AdminLayout from "@/Pages/Backend/Layouts/AdminLayout.vue";
 import { Head, usePage, router } from "@inertiajs/vue3";
 import FeedbackModal from "@/Pages/Backend/Components/FeedbackModal.vue";
 import ConfirmModal from "@/Pages/Backend/Components/ConfirmModal.vue";
 import Pagination from "@/Pages/Backend/Components/Pagination.vue";
 import { formatDate } from "@/utils/functions.js";
+import { Tooltip } from "bootstrap";
 
 const props = defineProps({
     title: String,
@@ -20,6 +21,112 @@ const page = usePage();
 const orderList = computed(() => props.orders.data ?? []);
 const feedbackModal = ref(null);
 const confirmModal = ref(null);
+
+// Initialize tooltip
+onMounted(() => {
+    const tooltipElements = document.querySelectorAll('[data-tooltip="true"]');
+    tooltipElements.forEach((el) => {
+        new Tooltip(el);
+    });
+});
+
+/**
+ * Update Payment Status
+ */
+function updatePaymentStatus(order) {
+    confirmModal.value.show({
+        text: "You want to proceed",
+        onConfirm: () => {
+            router.put(
+                `update-payment-status/${order.id}`,
+                { payment_status: order.payment_status },
+                {
+                    onSuccess: () => {
+                        feedbackModal.value.show({
+                            type: "success",
+                            title: "Update Payment Status!",
+                            message: page.props.flash.success,
+                            autoClose: true,
+                            autoCloseDelay: 3000,
+                        });
+                    },
+                    onError: () => {
+                        alert("Failed to  Update Payment Status.");
+                    },
+                }
+            );
+        },
+    });
+}
+
+/**
+ * Update Order Status
+ */
+function updateOrderStatus(order) {
+    confirmModal.value.show({
+        text: "You want to proceed",
+        onConfirm: () => {
+            router.put(
+                `update-order-status/${order.id}`,
+                { order_status: order.order_status },
+                {
+                    onSuccess: () => {
+                        feedbackModal.value.show({
+                            type: "success",
+                            title: "Update Order Status!",
+                            message: page.props.flash.success,
+                            autoClose: true,
+                            autoCloseDelay: 3000,
+                        });
+                    },
+                    onError: () => {
+                        alert("Failed to  Update Order Status.");
+                    },
+                }
+            );
+        },
+    });
+}
+
+/**
+ * Download Invoice as PDF
+ */
+async function downloadInvoice(order) {
+    try {
+        const response = await fetch(`/download-invoice/${order.id}`);
+
+        if (!response.ok) {
+            throw new Error("Failed to generate invoice");
+        }
+
+        const data = await response.json();
+
+        if (data.success && data.file_url) {
+            const fileResponse = await fetch(data.file_url);
+            const blob = await fileResponse.blob();
+
+            // Create an object URL for the blob
+            const url = window.URL.createObjectURL(blob);
+
+            // Create a hidden link to trigger download (no reload)
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `invoice_${order.order_no}.pdf`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // Revoke object URL to free memory
+            window.URL.revokeObjectURL(url);
+        } else {
+            alert(data.message || "Failed to generate invoice.");
+        }
+    } catch (error) {
+        alert(
+            error.message || "Something went wrong while generating invoice."
+        );
+    }
+}
 </script>
 
 <template>
@@ -59,12 +166,12 @@ const confirmModal = ref(null);
                             <thead>
                                 <tr>
                                     <th>Order No</th>
-                                    <th>Customer</th>
+                                    <th>Customer Name</th>
                                     <th>Phone</th>
-                                    <th>City</th>
                                     <th>Products</th>
                                     <th>Total Price</th>
-                                    <th>Status</th>
+                                    <th>Payment status</th>
+                                    <th>Order status</th>
                                     <th>Date</th>
                                     <th class="text-end pe-4">Actions</th>
                                 </tr>
@@ -79,9 +186,6 @@ const confirmModal = ref(null);
                                     <td>
                                         {{ order.user_address?.phone || "N/A" }}
                                     </td>
-                                    <td>
-                                        {{ order.user_address?.city || "N/A" }}
-                                    </td>
                                     <td style="max-width: 250px">
                                         <span
                                             :title="
@@ -93,31 +197,64 @@ const confirmModal = ref(null);
                                                     .filter(Boolean)
                                                     .join(', ')
                                             "
-                                        >
-                                            {{
+                                            v-html="
                                                 order.order_items
                                                     .map(
                                                         (item) =>
                                                             item.product?.title
                                                     )
                                                     .filter(Boolean)
-                                                    .join(", ") || "N/A"
-                                            }}
-                                        </span>
+                                                    .join(',<br>') || 'N/A'
+                                            "
+                                        ></span>
                                     </td>
-
                                     <td>{{ order.total_price }}</td>
+                                    <!-- Payment Status -->
                                     <td>
-                                        <span
-                                            :class="[
-                                                'badge',
-                                                order.order_status === 'paid'
-                                                    ? 'bg-success'
-                                                    : 'bg-warning',
-                                            ]"
+                                        <select
+                                            v-model="order.payment_status"
+                                            class="form-select form-select-sm"
+                                            :disabled="
+                                                order.payment_status === 'paid'
+                                            "
+                                            @change="updatePaymentStatus(order)"
                                         >
-                                            {{ order.order_status }}
-                                        </span>
+                                            <option value="unpaid">
+                                                Unpaid
+                                            </option>
+                                            <option value="paid">Paid</option>
+                                            <option value="refunded">
+                                                Refunded
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <!-- Order Status -->
+                                    <td>
+                                        <select
+                                            v-model="order.order_status"
+                                            class="form-select form-select-sm"
+                                            :disabled="
+                                                order.order_status ===
+                                                'delivered'
+                                            "
+                                            @change="updateOrderStatus(order)"
+                                        >
+                                            <option value="pending">
+                                                Pending
+                                            </option>
+                                            <option value="processing">
+                                                Processing
+                                            </option>
+                                            <option value="shipped">
+                                                Shipped
+                                            </option>
+                                            <option value="delivered">
+                                                Delivered
+                                            </option>
+                                            <option value="cancelled">
+                                                Cancelled
+                                            </option>
+                                        </select>
                                     </td>
                                     <td>
                                         {{
@@ -131,22 +268,18 @@ const confirmModal = ref(null);
                                             class="d-flex align-items-center gap-1 justify-content-end"
                                         >
                                             <span
-                                                class="material-icons icon text-primary"
-                                                title="View"
+                                                class="material-icons icon text-success"
+                                                title="Download Invoice"
+                                                data-tooltip="true"
                                                 role="button"
+                                                @click="downloadInvoice(order)"
                                             >
-                                                visibility
+                                                download
                                             </span>
-                                            <!-- <span
-                                                class="material-icons icon text-warning"
-                                                title="Edit"
-                                                role="button"
-                                            >
-                                                drive_file_rename_outline
-                                            </span> -->
                                             <span
                                                 class="material-icons icon text-danger"
                                                 title="Delete"
+                                                data-tooltip="true"
                                                 role="button"
                                             >
                                                 delete

@@ -38,4 +38,15 @@ class AppOptimizationController extends Controller
         );
     }
 
+    public function storageLink()
+    {
+        Artisan::call('storage:link');
+
+        return response()->make(
+            "Storage link created successfully.",
+            200,
+            ['Content-Type' => 'text/html']
+        );
+    }
+
 }

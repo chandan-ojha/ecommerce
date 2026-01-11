@@ -38,4 +38,5 @@ class HomeController extends Controller
             'onSaleProducts' => $onSaleProducts,
         ])->rootView('app');
     }
+
 }

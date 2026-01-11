@@ -145,7 +145,7 @@ const submit = () => {
                             <p class="text-center mt-3 small mb-0">
                                 Don’t have an account?
                                 <Link
-                                    href="#"
+                                    :href="route('register')"
                                     class="text-primary fw-semibold text-decoration-none"
                                 >
                                     Create one

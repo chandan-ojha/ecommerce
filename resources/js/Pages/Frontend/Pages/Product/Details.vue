@@ -1,7 +1,8 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import FrontendLayout from "@/Pages/Frontend/Layouts/FrontendLayout.vue";
 import { Head, Link, router, usePage } from "@inertiajs/vue3";
+import { flashMessage } from "@/utils/alert.js";
 
 const props = defineProps({
     title: String,
@@ -11,8 +12,18 @@ const props = defineProps({
     },
 });
 
-const carts = computed(() => usePage().props.cart.data.items);
-const itemId = (id) => carts.value.findIndex((item) => item.product_id === id);
+// Quantity state
+const quantity = ref(1);
+
+// Increment quantity
+const increment = () => {
+    quantity.value++;
+};
+
+// Decrement quantity
+const decrement = () => {
+    if (quantity.value > 1) quantity.value--;
+};
 
 // add product to cart
 const addToCart = (product) => {
@@ -24,15 +35,72 @@ const addToCart = (product) => {
                 .querySelector('meta[name="csrf-token"]')
                 ?.getAttribute("content"),
         },
-    }).then(() => {
-        router.reload({ only: ["cart"] });
-    });
+        body: JSON.stringify({
+            quantity: quantity.value,
+        }),
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            if (data.success) {
+                flashMessage({
+                    type: "success",
+                    message: data.message,
+                });
+            }
+
+            router.reload({ only: ["cart"] });
+        })
+        .catch(() => {
+            flashMessage({
+                type: "error",
+                message: "Something went wrong!",
+            });
+        });
 };
 
-const update = (product, quantity) =>
-    router.patch(route("cart.update", product), {
-        quantity,
+// image zoom function
+function imageZoom(imgID) {
+    const img = document.getElementById(imgID);
+    const container = img.closest(".img-zoom-container");
+
+    if (!img || !container) return;
+
+    const lens = document.createElement("div");
+    lens.classList.add("img-zoom-lens");
+    container.appendChild(lens);
+
+    const zoomLevel = 2.5;
+
+    container.addEventListener("mouseenter", () => {
+        lens.style.display = "block";
+        img.style.transform = `scale(${zoomLevel})`;
     });
+
+    container.addEventListener("mouseleave", () => {
+        lens.style.display = "none";
+        img.style.transform = "scale(1)";
+    });
+
+    container.addEventListener("mousemove", (e) => {
+        const rect = container.getBoundingClientRect();
+        let x = e.clientX - rect.left;
+        let y = e.clientY - rect.top;
+
+        // Move lens
+        lens.style.left = x - lens.offsetWidth / 2 + "px";
+        lens.style.top = y - lens.offsetHeight / 2 + "px";
+
+        // Move zoom center
+        img.style.transformOrigin = `${x}px ${y}px`;
+    });
+}
+
+// Call zoom after image is mounted
+onMounted(() => {
+    if (props.product.media?.url) {
+        imageZoom("myimage");
+    }
+});
 </script>
 
 <template>
@@ -43,13 +111,16 @@ const update = (product, quantity) =>
                 <div class="row">
                     <!-- Product Image -->
                     <div class="col-md-6">
-                        <img
-                            v-if="product.media?.url"
-                            :src="product.media.url"
-                            class="img-fluid rounded product-img"
-                            alt=""
-                        />
-                        <span v-else>N/A</span>
+                        <div class="img-zoom-container">
+                            <img
+                                v-if="product.media?.url"
+                                :src="product.media.url"
+                                class="img-fluid rounded product-img"
+                                alt=""
+                                id="myimage"
+                            />
+                            <span v-else>N/A</span>
+                        </div>
                     </div>
 
                     <div class="col-md-6">
@@ -63,8 +134,8 @@ const update = (product, quantity) =>
                         </h4>
                         <div class="product-prize">
                             <span class="prize">
-                                ৳ {{ product?.price ?? "" }}</span
-                            >
+                                ৳ {{ product?.selling_price ?? "" }}
+                            </span>
                             <!-- <span class="text-decoration-line-through discount">
                                 158.00
                             </span> -->
@@ -75,40 +146,13 @@ const update = (product, quantity) =>
                         </div>
                         <div class="d-flex align-items-center product-qty">
                             <div class="add-product d-flex align-items-center">
-                                <span
-                                    @click.prevent="
-                                        if (
-                                            (carts[itemId(product.id)]
-                                                ?.quantity ?? 1) > 0
-                                        ) {
-                                            update(
-                                                product,
-                                                (carts[itemId(product.id)]
-                                                    ?.quantity ?? 1) - 1
-                                            );
-                                        }
-                                    "
-                                >
-                                    -
-                                </span>
+                                <span @click="decrement"> - </span>
                                 <input
                                     type="number"
-                                    :value="
-                                        carts[itemId(product.id)]?.quantity ?? 1
-                                    "
-                                    readonly
+                                    v-model="quantity"
+                                    min="1"
                                 />
-                                <span
-                                    @click.prevent="
-                                        update(
-                                            product,
-                                            (carts[itemId(product.id)]
-                                                ?.quantity ?? 1) + 1
-                                        )
-                                    "
-                                >
-                                    +
-                                </span>
+                                <span @click="increment"> + </span>
                             </div>
 
                             <button

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AppOptimizationController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\ProductManagement\CategoryController;
 use App\Http\Controllers\Backend\ProductManagement\ProductController;
@@ -20,6 +21,7 @@ use Inertia\Inertia;
 //This route is used to clear the cache, view, config, and route cache
 Route::get('/optimized', [AppOptimizationController::class, 'optimize']);
 Route::get('/run-migrations', [AppOptimizationController::class, 'migrate']);
+Route::get('/storage-link', [AppOptimizationController::class, 'storageLink']);
 
 /*
 |--------------------------------------
@@ -27,6 +29,10 @@ Route::get('/run-migrations', [AppOptimizationController::class, 'migrate']);
 |--------------------------------------
 */
 Route::middleware('guest')->group(function () {
+    Route::get('register', [RegisteredUserController::class, 'create'])
+        ->name('register');
+
+    Route::post('register', [RegisteredUserController::class, 'store']);
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 });
@@ -82,6 +88,9 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
 
     //Order Manage
     Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+    Route::put('/update-payment-status/{id}', [OrderController::class, 'updatePaymentStatus']);
+    Route::put('/update-order-status/{id}', [OrderController::class, 'updateOrderStatus']);
+    // Route::get('/download-invoice/{id}', [OrderController::class, 'downloadInvoice']);
 
     Route::get('change', [LanguageController::class, 'change'])->name('lang.change');
 
@@ -102,5 +111,7 @@ Route::middleware('auth')->group(function () {
     })->name('thankyou.view');
 
 });
+
+Route::get('/download-invoice/{id}', [OrderController::class, 'downloadInvoice']);
 
 require __DIR__ . '/auth.php';

@@ -143,9 +143,9 @@ const cart = computed(() => page.props.cart ?? null);
                         <Link :href="route('login')">
                             <button class="btn-login">Login</button>
                         </Link>
-                        <a href="register.html">
+                        <Link :href="route('register')">
                             <button class="btn-register">Register</button>
-                        </a>
+                        </Link>
                     </template>
                 </div>
             </div>

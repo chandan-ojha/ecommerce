@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('order_no')->unique();
             $table->decimal('total_price', 20, 2);
             $table->string('payment_mode')->nullable();
-            $table->string('order_status');
+            $table->enum('payment_status', ['unpaid', 'paid', 'refunded'])->default('unpaid');
+            $table->enum('order_status', ['pending', 'processing', 'shipped', 'delivered', 'cancelled'])->default('pending');
             $table->foreignIdFor(UserAddress::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignIdFor(User::class, 'created_by')->nullable();
             $table->foreignIdFor(User::class, 'updated_by')->nullable();
